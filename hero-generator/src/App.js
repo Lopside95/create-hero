@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import { nanoid } from "nanoid";
+// import data from "./data";
 import "./App.css";
 
 // some of the ternaries are a bit messy and maybe would be better
@@ -35,21 +36,24 @@ function App() {
   );
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
-  const [heroes, setHeroes] = useState({
-    id: 1,
-    firstName: "",
-    lastName: "",
-    baseHealth: 10,
-    baseMana: 10,
-    baseAttackSpeed: 10,
-    baseDamage: 10,
-    baseMoveSpeed: 30,
-    chosenAttribute: "",
-    chosenBoots: "",
-    chosenArmor: "",
-    chosenWeapon: "",
-    chosenBonus: "",
-  });
+  const [heroes, setHeroes] = useState(
+    () =>
+      JSON.parse(localStorage.getItem("heroes")) || {
+        id: 1,
+        firstName: "",
+        lastName: "",
+        baseHealth: 10,
+        baseMana: 10,
+        baseAttackSpeed: 10,
+        baseDamage: 10,
+        baseMoveSpeed: 30,
+        chosenAttribute: "",
+        chosenBoots: "",
+        chosenArmor: "",
+        chosenWeapon: "",
+        chosenBonus: "",
+      }
+  );
   const [gold, setGold] = useState(100);
 
   const [boots, setBoots] = useState([
@@ -81,7 +85,7 @@ function App() {
       attackSpeed: 0,
       damage: 0,
       health: 0,
-      bonus: "TP to creeps",
+      bonus: "Teleport to creeps",
       // cost: 15,
     },
   ]);
@@ -158,13 +162,17 @@ function App() {
   const [totalMoveSpeed, setTotalMoveSpeed] = useState(0);
 
   // added ternaries to avoid unused/blank bullet points
+  // 20.04: changed conditional rendering to rather show the item if the value is greater than 0
+  // items that have non-integer values will still need to
+  //rely on the condition that they aren't undefined
   const bootElements = boots.map((boot) => (
     <ul className="boot-stats" key={boot.id}>
       <h4>{boot.name}</h4>
-      {boot.moveSpeed !== "" ? <li>Move Speed: {boot.moveSpeed}</li> : ""}
-      {boot.attackSpeed !== "" ? <li>Attack Speed: {boot.attackSpeed}</li> : ""}
-      {boot.damage !== "" ? <li>Damage: {boot.damage}</li> : ""}
-      {boot.bonus !== "" ? <li>Bonus: {boot.bonus}</li> : ""}
+      {boot.moveSpeed > 0 && <li>Move Speed: {boot.moveSpeed}</li>}
+      {/* is it necessary/best practice to have the conditional statement even if all boots have a moveSpeed */}
+      {boot.attackSpeed > 0 && <li>Attack Speed: {boot.attackSpeed}</li>}
+      {boot.damage > 0 && <li>Damage: {boot.damage}</li>}
+      {boot.bonus !== "" && <li>Bonus: {boot.bonus}</li>}
     </ul>
   ));
 
@@ -173,8 +181,8 @@ function App() {
       <h4>{weapon.name}</h4>
       <li>Damage: {weapon.damage}</li>
       <li>Damage Type: {weapon.damageType}</li>
-      <li>Attack Speed: {weapon.attackSpeed}</li>
-      <li>Mana: {weapon.mana}</li>
+      {weapon.attackSpeed > 0 && <li>Attack Speed{weapon.attackSpeed}</li>}
+      {weapon.mana > 0 && <li>Mana: {weapon.mana}</li>}
     </ul>
   ));
 
@@ -353,28 +361,90 @@ function App() {
     );
   }
 
+  // const [randomName, setRandomName] = useState({
+  //   randomFirstName: "",
+  //   randomSecondName: "",
+  // });
+
+  // const [randomName, setRandomName] = useState({
+  //   firstNames: ["Sleeping", "Mighty", "Glowing", "Water"],
+  //   lastNames: ["Slug", "Rock", "Bird", "Cheese"],
+  // });
+
+  // function rollNames() {
+  //   const nameOneArray = randomName.firstNames;
+  //   const nameTwoArray = randomName.lastNames;
+  //   const randomNumber = Math.floor(Math.random() * nameOneArray.length);
+  //   const nameOne = nameOneArray[randomNumber];
+  //   const nameTwo = nameTwoArray[randomNumber];
+  //   setRandomName((prevRandomName) => ({
+  //     ...randomName,
+  //     firstNames: nameOne,
+  //     lastNames: nameTwo,
+  //   }));
+  //   // console.log(theName);
+  // }
+
+  // const randomSecondName = function () {
+  //   const nameTwoArray = data.lastNames;
+  //   const randomNumber = Math.floor(Math.random() * nameTwoArray.length);
+  //   return nameTwoArray[randomNumber];
+  // };
+
+  // const randomSecondName = [data.lastNames];
+
+  // function rollSecondName() {
+  // const nameTwoArray = data.lastNames;
+  // const randomNumber = Math.floor(Math.random() * nameTwoArray.length);
+  // const theName = nameTwoArray[randomNumber];
+
+  // }
+
+  const [randomFirstName, setRandomFirstName] = useState([
+    "Sleeping",
+    "Mighty",
+    "Glowing",
+    "Water",
+  ]);
+
+  const [randomLastName, setRandomLastName] = useState([
+    "Slug",
+    "Rock",
+    "Bird",
+    "Cheese",
+  ]);
+
+  function rollFirstName() {
+    const num = Math.floor(Math.random() * randomFirstName.length);
+    setRandomFirstName(randomFirstName[num]);
+  }
+
   return (
     <div className="random-hero">
       <Container>
         <Row>
           <Col className="build-hero">
-            <label htmlFor="build-hero">Build a new Hero</label>
             <form className="build-hero-form" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Type first name"
-                name="firstName"
-                value={heroes.firstName}
-                onChange={handleChange}
-              />
-              <input
-                type="text"
-                placeholder="Type last name"
-                name="lastName"
-                value={heroes.lastName}
-                onChange={handleChange}
-              />
-
+              <label htmlFor="build-hero">Build a new Hero</label>
+              <Col className="name-and-gold">
+                <input
+                  className="first-name"
+                  type="text"
+                  placeholder="Type first name"
+                  name="firstName"
+                  value={heroes.firstName}
+                  onChange={handleChange}
+                />
+                <input
+                  className="last-name"
+                  type="text"
+                  placeholder="Type last name"
+                  name="lastName"
+                  value={heroes.lastName}
+                  onChange={handleChange}
+                />
+                <h2 className="gold-amount">{gold}</h2>
+              </Col>
               <Row>
                 <Col className="attributes-details">
                   <h5>Primary Attribute</h5>
@@ -390,13 +460,6 @@ function App() {
                       {attribute.name}
                     </label>
                   ))}
-                  <Col>
-                    {attributes.map((attribute) => (
-                      <p>
-                        {attribute.effect} {attribute.amount}
-                      </p>
-                    ))}
-                  </Col>
                 </Col>
               </Row>
 
@@ -418,8 +481,6 @@ function App() {
                     </label>
                   ))}
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <h5>Weapons</h5>
                   {weapons.map((weapon) => (
@@ -436,6 +497,7 @@ function App() {
                   ))}
                 </Col>
               </Row>
+              <Row></Row>
               <br />
               <br />
 
@@ -444,9 +506,7 @@ function App() {
               </button>
             </form>
           </Col>
-          <Col lg={1} className="gold-counter">
-            <h2 className="gold-amount">{gold}</h2>
-          </Col>
+
           <Col className="item-descriptions">
             <Col>{bootElements}</Col>
             <Col>{weaponsElements}</Col>
@@ -465,8 +525,17 @@ function App() {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <SubmittedHero />
+          <Col className="random-name">
+            <button className="roll-first" onClick={rollFirstName}>
+              Roll First
+            </button>
+            {/* <button className="roll-last" onClick={rollLastName}>
+              Roll last
+            </button> */}
+            <h1>{randomFirstName}</h1>
+
+            {/* <h1>{randomFirstName}</h1>
+            <h1>{randomSecondName}</h1> */}
           </Col>
         </Row>
       </Container>

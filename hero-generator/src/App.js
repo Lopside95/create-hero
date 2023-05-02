@@ -11,8 +11,9 @@ import "./App.css";
 
 function App() {
   const [teams, setTeams] = useState(
+    //could set the team as {}
     () =>
-      JSON.parse(localStorage.getItem("teamOne")) || [
+      JSON.parse(localStorage.getItem("teams")) || [
         {
           id: 1,
           name: "hero-one",
@@ -33,6 +34,12 @@ function App() {
         },
       ]
   );
+
+  useEffect(() => {
+    localStorage.setItem("teams", JSON.stringify(teams));
+  }, [teams]);
+
+  function submitHero() {}
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
   const [heroes, setHeroes] = useState({
@@ -199,7 +206,6 @@ function App() {
     };
   };
 
-  function handleSubmit() {}
   function handleMouseOver() {}
 
   function handleChange(event) {
@@ -324,9 +330,9 @@ function App() {
     calculateMoveSpeed();
     console.log(heroes);
     localStorage.setItem("heroes", JSON.stringify(heroes));
-  });
+  }, [heroes]);
 
-  function SubmittedHero() {
+  function SubmittedHero({ heroes }) {
     return (
       <div className="submitted-hero">
         <h1>{`${heroes.firstName} ${heroes.lastName}`}</h1>
@@ -342,7 +348,7 @@ function App() {
     );
   }
 
-  function BuiltHero({ builtHero }) {
+  function HeroSelections({ builtHero }) {
     return (
       <div className="display-hero">
         <h1>{`${heroes.firstName} ${heroes.lastName}`}</h1>
@@ -359,7 +365,7 @@ function App() {
         <Row>
           <Col className="build-hero">
             <label htmlFor="build-hero">Build a new Hero</label>
-            <form className="build-hero-form" onSubmit={handleSubmit}>
+            <form className="build-hero-form" onSubmit={submitHero}>
               <input
                 type="text"
                 placeholder="Type first name"
@@ -439,7 +445,7 @@ function App() {
               <br />
               <br />
 
-              <button className="create-hero-button" onSubmit={handleSubmit}>
+              <button className="create-hero-button" onSubmit={submitHero}>
                 Submit
               </button>
             </form>
@@ -454,9 +460,11 @@ function App() {
         </Row>
         <Row>
           <Col className="hero-elements">
-            <BuiltHero />
+            Hero Selections
+            <HeroSelections />
           </Col>
           <Col className="hero-preview">
+            Hero Preview
             <h5>{`Health = ${totalHealth}`}</h5>
             <h5>{`Mana = ${totalMana}`}</h5>
             <h5>{`Damage = ${totalDamage}`}</h5>
@@ -465,9 +473,7 @@ function App() {
           </Col>
         </Row>
         <Row>
-          <Col>
-            <SubmittedHero />
-          </Col>
+          <Col>{/* <SubmittedHero /> */}</Col>
         </Row>
       </Container>
     </div>

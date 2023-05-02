@@ -11,7 +11,6 @@ import "./App.css";
 
 function App() {
   const [teams, setTeams] = useState(
-    //could set the team as {}
     () =>
       JSON.parse(localStorage.getItem("teams")) || [
         {
@@ -42,21 +41,37 @@ function App() {
   function submitHero() {}
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
-  const [heroes, setHeroes] = useState({
-    id: 1,
-    firstName: "",
-    lastName: "",
-    baseHealth: 10,
-    baseMana: 10,
-    baseAttackSpeed: 10,
-    baseDamage: 10,
-    baseMoveSpeed: 30,
-    chosenAttribute: "",
-    chosenBoots: "",
-    chosenArmor: "",
-    chosenWeapon: "",
-    chosenBonus: "",
-  });
+  const [heroes, setHeroes] = useState(
+    () =>
+      JSON.parse(localStorage.getItem("heroes")) || [
+        {
+          id: 1,
+          firstName: "",
+          lastName: "",
+          baseHealth: 10,
+          baseMana: 10,
+          baseAttackSpeed: 10,
+          baseDamage: 10,
+          baseMoveSpeed: 30,
+          chosenAttribute: "",
+          chosenBoots: "",
+          chosenArmor: "",
+          chosenWeapon: "",
+          chosenBonus: "",
+        },
+      ]
+  );
+
+  useEffect(() => {
+    calculateDamage();
+    calculateHealth();
+    calculateMana();
+    calculateAttackSpeed();
+    calculateMoveSpeed();
+    console.log(heroes);
+    localStorage.setItem("heroes", JSON.stringify(heroes));
+  }, [heroes]);
+
   const [gold, setGold] = useState(100);
 
   const [boots, setBoots] = useState([
@@ -94,32 +109,32 @@ function App() {
   ]);
 
   const [attributes, setAttributes] = useState([
-    {
-      id: "empty",
-      name: "None",
-      effect: "",
-      amount: "",
-      health: "",
-      moveSpeed: "",
-      attackSpeed: "",
-      damage: "",
-    },
+    // {
+    //   id: "empty",
+    //   name: "None",
+    //   effect: "",
+    //   amount: "",
+    //   health: "",
+    //   moveSpeed: "",
+    //   attackSpeed: "",
+    //   damage: "",
+    // },
     {
       id: "strength",
       name: "Strength",
-      effect: "increase hitpoints",
+      effect: "Increases hitpoints",
       amount: 10,
     },
     {
       id: "agility",
       name: "Agility",
-      effect: "increase attack speed",
+      effect: "Increases attack speed",
       amount: 10,
     },
     {
       id: "intelligence",
       name: "Intelligence",
-      effect: "increase mana",
+      effect: "Increases mana",
       amount: 10,
     },
   ]);
@@ -128,8 +143,8 @@ function App() {
     {
       id: "daedalus",
       name: "Daedalus",
-      damageType: "physical",
       damage: 120,
+      damageType: "Physical",
       attackSpeed: 0,
       mana: 0,
       // cost: 40,
@@ -137,17 +152,17 @@ function App() {
     {
       id: "aghs",
       name: "Aghanim's Scepter",
-      damageType: "magical",
       damage: 80,
-      mana: 15,
+      damageType: "Magical",
       attackSpeed: 10,
+      mana: 15,
       // cost: 30,
     },
     {
       id: "butterfly",
       name: "Butterfly",
-      damageType: "physical",
       damage: 30,
+      damageType: "Physical",
       attackSpeed: 30,
       mana: 0,
       // cost: 38,
@@ -165,25 +180,55 @@ function App() {
   const [totalMoveSpeed, setTotalMoveSpeed] = useState(0);
 
   // added ternaries to avoid unused/blank bullet points
+
+  // ESSENTIALLY: should things like damage/bonus just be left out of a boot's state entirely
+  // if that boot doesnt have a damage/bonus value
+
   const bootElements = boots.map((boot) => (
     <ul className="boot-stats" key={boot.id}>
       <h4>{boot.name}</h4>
       {boot.moveSpeed !== "" ? <li>Move Speed: {boot.moveSpeed}</li> : ""}
-      {boot.attackSpeed !== "" ? <li>Attack Speed: {boot.attackSpeed}</li> : ""}
-      {boot.damage !== "" ? <li>Damage: {boot.damage}</li> : ""}
+
+      {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
+      {boot.attackSpeed && boot.attackSpeed > 0 ? (
+        <li>Attack Speed: {boot.attackSpeed}</li>
+      ) : (
+        ""
+      )}
+
       {boot.bonus !== "" ? <li>Bonus: {boot.bonus}</li> : ""}
     </ul>
   ));
 
+  // previous boot rendering:
+  /* {boot.attackSpeed !== "" ? <li>Attack Speed: {boot.attackSpeed}</li> : ""} */
+  /* {boot.damage !== "" ? <li>Damage: {boot.damage}</li> : ""} */
+
+  // rendering weapons elements with different conditons
+
   const weaponsElements = weapons.map((weapon) => (
-    <ul className="weapon-stats" key={weapon.id}>
+    <ul className="weapons-stats">
       <h4>{weapon.name}</h4>
       <li>Damage: {weapon.damage}</li>
       <li>Damage Type: {weapon.damageType}</li>
-      <li>Attack Speed: {weapon.attackSpeed}</li>
-      <li>Mana: {weapon.mana}</li>
+      {weapon.attackSpeed && weapon.attackSpeed > 0 ? (
+        <li>Attack Speed: {weapon.attackSpeed}</li>
+      ) : (
+        ""
+      )}
     </ul>
   ));
+
+  // const weaponsElements = weapons.map((weapon) => (
+  //   <ul className="weapon-stats" key={weapon.id}>
+  //     <h4>{weapon.name}</h4>
+  //     <li>Damage: {weapon.damage}</li>
+  //     <li>Damage Type: {weapon.damageType}</li>
+  //     {/* <li>Attack Speed: {weapon.attackSpeed}</li> */}
+  //     {weapon.attackSpeed > 0 && <li>Attack Speed: {weapon.attackSpeed}</li>}
+  //     <li>Mana: {weapon.mana}</li>
+  //   </ul>
+  // ));
 
   //when being defined with the purpose of calculation, inputs are prefixed with 'selected'
 
@@ -322,16 +367,6 @@ function App() {
     setTotalMoveSpeed(calculatedMoveSpeed);
   };
 
-  useEffect(() => {
-    calculateDamage();
-    calculateHealth();
-    calculateMana();
-    calculateAttackSpeed();
-    calculateMoveSpeed();
-    console.log(heroes);
-    localStorage.setItem("heroes", JSON.stringify(heroes));
-  }, [heroes]);
-
   function SubmittedHero({ heroes }) {
     return (
       <div className="submitted-hero">
@@ -348,7 +383,7 @@ function App() {
     );
   }
 
-  function HeroSelections({ builtHero }) {
+  function BuiltHero() {
     return (
       <div className="display-hero">
         <h1>{`${heroes.firstName} ${heroes.lastName}`}</h1>
@@ -393,16 +428,17 @@ function App() {
                         checked={heroes.chosenAttribute === attribute.name}
                         onChange={handleChange}
                       />
-                      {attribute.name}
+                      {/* {`${attribute.name}  ${attribute.effect}`} */}
+                      {attribute.name}, {attribute.effect}
                     </label>
                   ))}
-                  <Col>
+                  {/* <Col>
                     {attributes.map((attribute) => (
                       <p>
                         {attribute.effect} {attribute.amount}
                       </p>
                     ))}
-                  </Col>
+                  </Col> */}
                 </Col>
               </Row>
 
@@ -461,7 +497,7 @@ function App() {
         <Row>
           <Col className="hero-elements">
             Hero Selections
-            <HeroSelections />
+            <BuiltHero />
           </Col>
           <Col className="hero-preview">
             Hero Preview

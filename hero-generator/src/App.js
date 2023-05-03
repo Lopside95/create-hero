@@ -9,6 +9,13 @@ import "./App.css";
 // some of the ternaries are a bit messy and maybe would be better
 // to make them if...else
 
+// make adjusment with herSelections function
+// submit func
+// set hero stats to totalHelth etc
+// remove local storage
+// make teams array an empty array
+// push updayed hero to teams array
+
 function App() {
   const [teams, setTeams] = useState(
     () =>
@@ -85,6 +92,7 @@ function App() {
       bonus: 10, //treads adds a bonus 10 of whichever attribute is selected
       // and each point of a hero's primary attr increases their damage by 1
       // cost: 12,
+      img: "./treads.png",
     },
     {
       id: "phase",
@@ -94,6 +102,7 @@ function App() {
       damage: 20,
       health: 0,
       bonus: "Phase Shift",
+      img: "./phase_boots.png",
       // cost: 10,
     },
     {
@@ -104,6 +113,7 @@ function App() {
       damage: 0,
       health: 0,
       bonus: "TP to creeps",
+      img: "./phase_boots.png",
       // cost: 15,
     },
   ]);
@@ -197,6 +207,7 @@ function App() {
       )}
 
       {boot.bonus !== "" ? <li>Bonus: {boot.bonus}</li> : ""}
+      <img className="boot-image" src={boot.img}></img>
     </ul>
   ));
 
@@ -394,6 +405,20 @@ function App() {
     );
   }
 
+  function ItemImages() {
+    return (
+      <div className="item-images">
+        <h4>Your Items</h4>
+        {heroes.chosenBoots === "Power Treads" && (
+          <img src="./treads.png" alt="" />
+        )}
+        {heroes.chosenBoots === "Phase Boots" && (
+          <img src="./phase_boots.png" alt="" />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="random-hero">
       <Container>
@@ -494,16 +519,21 @@ function App() {
         </Row>
         <Row>
           <Col className="hero-elements">
-            Your Choices
+            Your Selections
             <BuiltHero />
           </Col>
           <Col className="hero-preview">
-            Hero Preview
+            Stats Preview
             <h5>{`Health = ${totalHealth}`}</h5>
             <h5>{`Mana = ${totalMana}`}</h5>
             <h5>{`Damage = ${totalDamage}`}</h5>
             <h5>{`Attack Speed = ${totalAttackSpeed}`}</h5>
             <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
+          </Col>
+          <Col className="boot-images">
+            <div>
+              <ItemImages />
+            </div>
           </Col>
         </Row>
         <Row>

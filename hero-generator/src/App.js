@@ -442,8 +442,6 @@ function App() {
                 </Col>
               </Row>
 
-              <br />
-              <br />
               <Row>
                 <Col>
                   <h5>Boots</h5>
@@ -486,17 +484,17 @@ function App() {
               </button>
             </form>
           </Col>
-          <Col lg={1} className="gold-counter">
-            <h2 className="gold-amount">{gold}</h2>
-          </Col>
-          <Col className="item-descriptions">
+          <Col className="item-details">
             <Col>{bootElements}</Col>
             <Col>{weaponsElements}</Col>
+          </Col>
+          <Col lg={1} className="gold-counter">
+            <h2 className="gold-amount">{gold}</h2>
           </Col>
         </Row>
         <Row>
           <Col className="hero-elements">
-            Hero Selections
+            Your Choices
             <BuiltHero />
           </Col>
           <Col className="hero-preview">

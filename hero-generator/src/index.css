@@ -85,3 +85,10 @@ code {
 .hero-preview {
   border: 1px solid black;
 }
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* background: green; */
+}

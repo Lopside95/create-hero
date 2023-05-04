@@ -10,57 +10,47 @@ import "./App.css";
 // to make them if...else
 
 function App() {
-  const [teams, setTeams] = useState(
-    () =>
-      JSON.parse(localStorage.getItem("teams")) || [
-        {
-          id: 1,
-          name: "hero-one",
-          title: "",
-          details: "",
-        },
-        {
-          id: 2,
-          name: "hero-two",
-          title: "",
-          details: "",
-        },
-        {
-          id: 3,
-          name: "hero-three",
-          title: "",
-          details: "",
-        },
-      ]
-  );
-
-  useEffect(() => {
-    localStorage.setItem("teams", JSON.stringify(teams));
-  }, [teams]);
+  const [teams, setTeams] = useState([
+    {
+      id: 1,
+      name: "hero-one",
+      title: "",
+      details: "",
+    },
+    {
+      id: 2,
+      name: "hero-two",
+      title: "",
+      details: "",
+    },
+    {
+      id: 3,
+      name: "hero-three",
+      title: "",
+      details: "",
+    },
+  ]);
 
   function submitHero() {}
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
-  const [heroes, setHeroes] = useState(
-    () =>
-      JSON.parse(localStorage.getItem("heroes")) || [
-        {
-          id: 1,
-          firstName: "",
-          lastName: "",
-          baseHealth: 10,
-          baseMana: 10,
-          baseAttackSpeed: 10,
-          baseDamage: 10,
-          baseMoveSpeed: 30,
-          chosenAttribute: "",
-          chosenBoots: "",
-          chosenArmor: "",
-          chosenWeapon: "",
-          chosenBonus: "",
-        },
-      ]
-  );
+  const [heroes, setHeroes] = useState([
+    {
+      id: 1,
+      firstName: "",
+      lastName: "",
+      baseHealth: 10,
+      baseMana: 10,
+      baseAttackSpeed: 10,
+      baseDamage: 10,
+      baseMoveSpeed: 30,
+      chosenAttribute: "",
+      chosenBoots: "",
+      chosenArmor: "",
+      chosenWeapon: "",
+      chosenBonus: "",
+    },
+  ]);
 
   useEffect(() => {
     calculateDamage();
@@ -69,7 +59,6 @@ function App() {
     calculateAttackSpeed();
     calculateMoveSpeed();
     console.log(heroes);
-    localStorage.setItem("heroes", JSON.stringify(heroes));
   }, [heroes]);
 
   const [gold, setGold] = useState(100);
@@ -109,16 +98,16 @@ function App() {
   ]);
 
   const [attributes, setAttributes] = useState([
-    // {
-    //   id: "empty",
-    //   name: "None",
-    //   effect: "",
-    //   amount: "",
-    //   health: "",
-    //   moveSpeed: "",
-    //   attackSpeed: "",
-    //   damage: "",
-    // },
+    {
+      id: "empty",
+      name: "None",
+      effect: "",
+      amount: "",
+      health: "",
+      moveSpeed: "",
+      attackSpeed: "",
+      damage: "",
+    },
     {
       id: "strength",
       name: "Strength",
@@ -200,10 +189,6 @@ function App() {
     </ul>
   ));
 
-  // previous boot rendering:
-  /* {boot.attackSpeed !== "" ? <li>Attack Speed: {boot.attackSpeed}</li> : ""} */
-  /* {boot.damage !== "" ? <li>Damage: {boot.damage}</li> : ""} */
-
   // rendering weapons elements with different conditons
 
   const weaponsElements = weapons.map((weapon) => (
@@ -218,17 +203,6 @@ function App() {
       )}
     </ul>
   ));
-
-  // const weaponsElements = weapons.map((weapon) => (
-  //   <ul className="weapon-stats" key={weapon.id}>
-  //     <h4>{weapon.name}</h4>
-  //     <li>Damage: {weapon.damage}</li>
-  //     <li>Damage Type: {weapon.damageType}</li>
-  //     {/* <li>Attack Speed: {weapon.attackSpeed}</li> */}
-  //     {weapon.attackSpeed > 0 && <li>Attack Speed: {weapon.attackSpeed}</li>}
-  //     <li>Mana: {weapon.mana}</li>
-  //   </ul>
-  // ));
 
   //when being defined with the purpose of calculation, inputs are prefixed with 'selected'
 

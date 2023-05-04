@@ -17,57 +17,28 @@ import "./App.css";
 // push updayed hero to teams array
 
 function App() {
-  const [teams, setTeams] = useState(
-    () =>
-      JSON.parse(localStorage.getItem("teams")) || [
-        {
-          id: 1,
-          name: "hero-one",
-          title: "",
-          details: "",
-        },
-        {
-          id: 2,
-          name: "hero-two",
-          title: "",
-          details: "",
-        },
-        {
-          id: 3,
-          name: "hero-three",
-          title: "",
-          details: "",
-        },
-      ]
-  );
+  const [teams, setTeams] = useState([]);
 
-  useEffect(() => {
-    localStorage.setItem("teams", JSON.stringify(teams));
-  }, [teams]);
+  useEffect(() => {}, [teams]);
 
   function submitHero() {}
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
-  const [heroes, setHeroes] = useState(
-    () =>
-      JSON.parse(localStorage.getItem("heroes")) || [
-        {
-          id: 1,
-          firstName: "",
-          lastName: "",
-          baseHealth: 10,
-          baseMana: 10,
-          baseAttackSpeed: 10,
-          baseDamage: 10,
-          baseMoveSpeed: 30,
-          chosenAttribute: "",
-          chosenBoots: "",
-          chosenArmor: "",
-          chosenWeapon: "",
-          chosenBonus: "",
-        },
-      ]
-  );
+  const [heroes, setHeroes] = useState({
+    id: 1,
+    firstName: "",
+    lastName: "",
+    baseHealth: 10,
+    baseMana: 10,
+    baseAttackSpeed: 10,
+    baseDamage: 10,
+    baseMoveSpeed: 30,
+    chosenAttribute: "",
+    chosenBoots: "",
+    chosenArmor: "",
+    chosenWeapon: "",
+    chosenBonus: "",
+  });
 
   useEffect(() => {
     calculateDamage();
@@ -76,7 +47,6 @@ function App() {
     calculateAttackSpeed();
     calculateMoveSpeed();
     console.log(heroes);
-    localStorage.setItem("heroes", JSON.stringify(heroes));
   }, [heroes]);
 
   const [gold, setGold] = useState(100);

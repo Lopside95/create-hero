@@ -10,26 +10,7 @@ import "./App.css";
 // to make them if...else
 
 function App() {
-  const [teams, setTeams] = useState([
-    {
-      id: 1,
-      name: "hero-one",
-      title: "",
-      details: "",
-    },
-    {
-      id: 2,
-      name: "hero-two",
-      title: "",
-      details: "",
-    },
-    {
-      id: 3,
-      name: "hero-three",
-      title: "",
-      details: "",
-    },
-  ]);
+  const [teams, setTeams] = useState([]);
 
   function submitHero() {}
 

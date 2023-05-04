@@ -10,7 +10,8 @@ import "./App.css";
 // to make them if...else
 
 function App() {
-  const [teams, setTeams] = useState([]);
+  // const [teams, setTeams] = useState([]);
+  // useEffect(() => {});
 
   function submitHero() {}
 

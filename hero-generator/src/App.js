@@ -10,29 +10,27 @@ import "./App.css";
 // to make them if...else
 
 function App() {
-  // const [teams, setTeams] = useState([]);
-  // useEffect(() => {});
+  const [teams, setTeams] = useState([]);
+  useEffect(() => {});
 
   function submitHero() {}
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
-  const [heroes, setHeroes] = useState([
-    {
-      id: 1,
-      firstName: "",
-      lastName: "",
-      baseHealth: 10,
-      baseMana: 10,
-      baseAttackSpeed: 10,
-      baseDamage: 10,
-      baseMoveSpeed: 30,
-      chosenAttribute: "",
-      chosenBoots: "",
-      chosenArmor: "",
-      chosenWeapon: "",
-      chosenBonus: "",
-    },
-  ]);
+  const [heroes, setHeroes] = useState({
+    id: 1,
+    firstName: "",
+    lastName: "",
+    baseHealth: 10,
+    baseMana: 10,
+    baseAttackSpeed: 10,
+    baseDamage: 10,
+    baseMoveSpeed: 30,
+    chosenAttribute: "",
+    chosenBoots: "",
+    chosenArmor: "",
+    chosenWeapon: "",
+    chosenBonus: "",
+  });
 
   useEffect(() => {
     calculateDamage();

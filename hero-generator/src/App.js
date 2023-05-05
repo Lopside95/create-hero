@@ -20,11 +20,11 @@ function App() {
     id: 1,
     firstName: "",
     lastName: "",
-    baseHealth: 10,
-    baseMana: 10,
-    baseAttackSpeed: 10,
-    baseDamage: 10,
-    baseMoveSpeed: 30,
+    health: 10,
+    mana: 10,
+    attackSpeed: 10,
+    damage: 10,
+    moveSpeed: 30,
     chosenAttribute: "",
     chosenBoots: "",
     chosenArmor: "",
@@ -156,7 +156,7 @@ function App() {
   const bootElements = boots.map((boot) => (
     <ul className="boot-stats" key={boot.id}>
       <h4>{boot.name}</h4>
-      {boot.moveSpeed !== "" ? <li>Move Speed: {boot.moveSpeed}</li> : ""}
+      <li>Move speed: {boot.moveSpeed}</li>
 
       {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
       {boot.attackSpeed && boot.attackSpeed > 0 ? (
@@ -232,8 +232,10 @@ function App() {
         ? selectedBoots.bonus * 1
         : 0;
 
+    // const bootsAttributeDamage = () => {}
+
     const calculatedDamage =
-      heroes.baseDamage + bootsBaseDamage + weaponDamage + bootsAttributeDamage;
+      heroes.damage + bootsBaseDamage + weaponDamage + bootsAttributeDamage;
     setTotalDamage(calculatedDamage);
   };
 
@@ -254,7 +256,7 @@ function App() {
         : 0;
 
     const calculatedHealth =
-      heroes.baseHealth + attributeHealth + bootsAttributeHealth;
+      heroes.health + attributeHealth + bootsAttributeHealth;
     setTotalHealth(calculatedHealth);
   };
 
@@ -278,11 +280,7 @@ function App() {
         : 0;
 
     const calculatedMana =
-      heroes.baseMana +
-      attributeMana +
-      bootsMana +
-      weaponMana +
-      bootsAttributeMana;
+      heroes.mana + attributeMana + bootsMana + weaponMana + bootsAttributeMana;
     setTotalMana(calculatedMana);
   };
 
@@ -305,7 +303,7 @@ function App() {
     const bootsAttackSpeed = selectedBoots ? selectedBoots.attackSpeed : 0;
     const weaponAttackSpeed = selectedWeapon ? selectedWeapon.attackSpeed : 0;
     const calculatedTotalAttackSpeed =
-      heroes.baseAttackSpeed +
+      heroes.attackSpeed +
       attributeAttackSpeed +
       bootsAttributeAttackSpeed +
       bootsAttackSpeed +
@@ -317,7 +315,7 @@ function App() {
     const { selectedBoots } = heroSelections();
     const bootsMoveSpeed = selectedBoots ? selectedBoots.moveSpeed : 0;
 
-    const calculatedMoveSpeed = heroes.baseMoveSpeed + bootsMoveSpeed;
+    const calculatedMoveSpeed = heroes.moveSpeed + bootsMoveSpeed;
     setTotalMoveSpeed(calculatedMoveSpeed);
   };
 

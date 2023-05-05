@@ -79,16 +79,6 @@ function App() {
 
   const [attributes, setAttributes] = useState([
     {
-      id: "empty",
-      name: "None",
-      effect: "",
-      amount: "",
-      health: "",
-      moveSpeed: "",
-      attackSpeed: "",
-      damage: "",
-    },
-    {
       id: "strength",
       name: "Strength",
       effect: "Increases hitpoints",
@@ -150,22 +140,17 @@ function App() {
 
   // added ternaries to avoid unused/blank bullet points
 
-  // ESSENTIALLY: should things like damage/bonus just be left out of a boot's state entirely
-  // if that boot doesnt have a damage/bonus value
-
   const bootElements = boots.map((boot) => (
     <ul className="boot-stats" key={boot.id}>
       <h4>{boot.name}</h4>
       <li>Move speed: {boot.moveSpeed}</li>
-
       {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
       {boot.attackSpeed && boot.attackSpeed > 0 ? (
         <li>Attack Speed: {boot.attackSpeed}</li>
       ) : (
         ""
       )}
-
-      {boot.bonus !== "" ? <li>Bonus: {boot.bonus}</li> : ""}
+      {boot.bonus && <li>Bonus: {boot.bonus}</li>}
     </ul>
   ));
 
@@ -226,13 +211,10 @@ function App() {
 
     const bootsAttributeDamage =
       selectedAttribute &&
-      selectedAttribute.name !== "None" &&
       selectedBoots &&
       selectedBoots.name === "Power Treads"
-        ? selectedBoots.bonus * 1
+        ? selectedBoots.bonus
         : 0;
-
-    // const bootsAttributeDamage = () => {}
 
     const calculatedDamage =
       heroes.damage + bootsBaseDamage + weaponDamage + bootsAttributeDamage;
@@ -244,7 +226,7 @@ function App() {
       heroSelections();
     const attributeHealth =
       selectedAttribute && selectedAttribute.name === "Strength"
-        ? selectedAttribute.amount * 1
+        ? selectedAttribute.amount
         : 0;
 
     const bootsAttributeHealth =
@@ -252,7 +234,7 @@ function App() {
       selectedAttribute.name === "Strength" &&
       selectedBoots &&
       selectedBoots.name === "Power Treads"
-        ? selectedBoots.bonus * 1
+        ? selectedBoots.bonus
         : 0;
 
     const calculatedHealth =
@@ -265,7 +247,7 @@ function App() {
       heroSelections();
     const attributeMana =
       selectedAttribute && selectedAttribute.name === "Intelligence"
-        ? selectedAttribute.amount * 1
+        ? selectedAttribute.amount
         : 0;
     const bootsMana =
       selectedBoots && selectedBoots.mana ? selectedBoots.mana : 0;
@@ -276,7 +258,7 @@ function App() {
       selectedAttribute.name === "Intelligence" &&
       selectedBoots &&
       selectedBoots.name === "Power Treads"
-        ? selectedBoots.bonus * 1
+        ? selectedBoots.bonus
         : 0;
 
     const calculatedMana =
@@ -289,7 +271,7 @@ function App() {
       heroSelections();
     const attributeAttackSpeed =
       selectedAttribute && selectedAttribute.name === "Agility"
-        ? selectedAttribute.amount * 1
+        ? selectedAttribute.amount
         : 0;
 
     const bootsAttributeAttackSpeed =
@@ -297,7 +279,7 @@ function App() {
       selectedAttribute.name === "Agility" &&
       selectedBoots &&
       selectedBoots.name === "Power Treads"
-        ? selectedBoots.bonus * 1
+        ? selectedBoots.bonus
         : 0;
 
     const bootsAttackSpeed = selectedBoots ? selectedBoots.attackSpeed : 0;
@@ -380,17 +362,9 @@ function App() {
                         checked={heroes.chosenAttribute === attribute.name}
                         onChange={handleChange}
                       />
-                      {/* {`${attribute.name}  ${attribute.effect}`} */}
                       {attribute.name}, {attribute.effect}
                     </label>
                   ))}
-                  {/* <Col>
-                    {attributes.map((attribute) => (
-                      <p>
-                        {attribute.effect} {attribute.amount}
-                      </p>
-                    ))}
-                  </Col> */}
                 </Col>
               </Row>
 
@@ -438,12 +412,12 @@ function App() {
               </button>
             </form>
           </Col>
-          <Col lg={1} className="gold-counter">
-            <h2 className="gold-amount">{gold}</h2>
-          </Col>
           <Col className="item-descriptions">
             <Col>{bootElements}</Col>
             <Col>{weaponsElements}</Col>
+            <Col lg={1} className="gold-counter">
+              <h2 className="gold-amount">{gold}</h2>
+            </Col>
           </Col>
         </Row>
         <Row>
@@ -460,9 +434,7 @@ function App() {
             <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
           </Col>
         </Row>
-        <Row>
-          <Col>{/* <SubmittedHero /> */}</Col>
-        </Row>
+        <Row></Row>
       </Container>
     </div>
   );

@@ -6,18 +6,12 @@ import { useEffect } from "react";
 import { nanoid } from "nanoid";
 import "./App.css";
 
-// some of the ternaries are a bit messy and maybe would be better
-// to make them if...else
-
 function App() {
   const [teams, setTeams] = useState([]);
-  useEffect(() => {});
-
-  function submitHero() {}
 
   // inputs are prefixed with 'chosen' or 'base' within the heroes state
   const [heroes, setHeroes] = useState({
-    id: 1,
+    id: nanoid(),
     firstName: "",
     lastName: "",
     health: 10,
@@ -154,8 +148,6 @@ function App() {
     </ul>
   ));
 
-  // rendering weapons elements with different conditons
-
   const weaponsElements = weapons.map((weapon) => (
     <ul className="weapons-stats">
       <h4>{weapon.name}</h4>
@@ -190,18 +182,13 @@ function App() {
     };
   };
 
-  function handleMouseOver() {}
-
   function handleChange(event) {
     const { name, type, value, checked } = event.target;
     setHeroes((prevHeroes) => ({
       ...prevHeroes,
       [name]: type === "checkbox" ? checked : value,
     }));
-    // console.log(heroes);
   }
-
-  // these should probably be if...else for readability?
 
   const calculateDamage = () => {
     const { selectedBoots, selectedWeapon, selectedAttribute } =
@@ -284,13 +271,13 @@ function App() {
 
     const bootsAttackSpeed = selectedBoots ? selectedBoots.attackSpeed : 0;
     const weaponAttackSpeed = selectedWeapon ? selectedWeapon.attackSpeed : 0;
-    const calculatedTotalAttackSpeed =
+    const calculatedAttackSpeed =
       heroes.attackSpeed +
       attributeAttackSpeed +
       bootsAttributeAttackSpeed +
       bootsAttackSpeed +
       weaponAttackSpeed;
-    setTotalAttackSpeed(calculatedTotalAttackSpeed);
+    setTotalAttackSpeed(calculatedAttackSpeed);
   };
 
   const calculateMoveSpeed = () => {
@@ -301,18 +288,57 @@ function App() {
     setTotalMoveSpeed(calculatedMoveSpeed);
   };
 
-  function SubmittedHero({ heroes }) {
+  function submitHero(event) {
+    event.preventDefault();
+    calculateHealth();
+    calculateDamage();
+    calculateAttackSpeed();
+    calculateHealth();
+    calculateMana();
+
+    const updatedHero = {
+      ...heroes,
+      totalHealth,
+      totalAttackSpeed,
+      totalMana,
+      totalDamage,
+      totalMoveSpeed,
+    };
+
+    setTeams((prevTeams) => [...prevTeams, updatedHero]);
+    setHeroes({
+      id: nanoid(),
+      firstName: "",
+      lastName: "",
+      health: 10,
+      mana: 10,
+      attackSpeed: 10,
+      damage: 10,
+      moveSpeed: 30,
+      chosenAttribute: "",
+      chosenBoots: "",
+      chosenArmor: "",
+      chosenWeapon: "",
+      chosenBonus: "",
+    });
+  }
+
+  const teamMembers = teams.map((team) => (
+    <SubmittedHero team={team} key={team.id} />
+  ));
+
+  function SubmittedHero({ team }) {
     return (
       <div className="submitted-hero">
-        <h1>{`${heroes.firstName} ${heroes.lastName}`}</h1>
-        <h4>{`Attribute: ${heroes.chosenAttribute}`}</h4>
-        <h4>{`Boots: ${heroes.chosenBoots}`}</h4>
-        <h4>{`Weapon: ${heroes.chosenWeapon}`}</h4>
-        <h5>{`Health = ${totalHealth}`}</h5>
-        <h5>{`Mana = ${totalMana}`}</h5>
-        <h5>{`Damage = ${totalDamage}`}</h5>
-        <h5>{`Attack Speed = ${totalAttackSpeed}`}</h5>
-        <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
+        <h3>{`${team.firstName} ${team.lastName}`}</h3>
+        <h4>{`Attribute: ${team.chosenAttribute}`}</h4>
+        <h4>{`Boots: ${team.chosenBoots}`}</h4>
+        <h4>{`Weapon: ${team.chosenWeapon}`}</h4>
+        <h5>{`Health = ${team.totalHealth}`}</h5>
+        <h5>{`Mana = ${team.totalMana}`}</h5>
+        <h5>{`Damage = ${team.totalDamage}`}</h5>
+        <h5>{`Attack Speed = ${team.totalAttackSpeed}`}</h5>
+        <h5>{`Move Speed = ${team.totalMoveSpeed}`}</h5>
       </div>
     );
   }
@@ -378,7 +404,7 @@ function App() {
                       <input
                         type="radio"
                         name="chosenBoots"
-                        value={boot.name} // should the value be boot.id rather than boot.name or does it not matter?
+                        value={boot.name}
                         checked={heroes.chosenBoots === boot.name}
                         onChange={handleChange}
                       />
@@ -407,7 +433,11 @@ function App() {
               <br />
               <br />
 
-              <button className="create-hero-button" onSubmit={submitHero}>
+              <button
+                className="create-hero-button"
+                type="submit"
+                value="Submit"
+              >
                 Submit
               </button>
             </form>
@@ -434,7 +464,10 @@ function App() {
             <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
           </Col>
         </Row>
-        <Row></Row>
+        <Row>
+          <Col>{teamMembers}</Col>
+          <Col></Col>
+        </Row>
       </Container>
     </div>
   );

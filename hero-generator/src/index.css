@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -12,9 +14,13 @@ code {
     monospace;
 }
 
-.hero-col {
-  border: 1px solid black;
-  justify-content: left;
+.h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", sans-serif;
 }
 
 .attributes-details {
@@ -28,9 +34,9 @@ code {
   border: 2px solid green;
 }
 
-.build-hero {
+.user-inputs {
   border: 1px solid purple;
-  margin-top: 200px;
+  width: 300px;
 }
 
 .boots-menu {
@@ -47,24 +53,40 @@ code {
   display: flex;
 }
 
-.boot-elements {
+.user-inputs {
+  position: relative;
+}
+
+/* .boot-elements {
   border: 1px solid black;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-}
+} */
 /* 
 .boot-stats:hover {
   background-color: lightblue;
 } */
 
-.boot-stats {
+.boot-elements {
   border: 1px solid red;
   height: 1fr;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+
+  /* list-style-type: none; */
   /* justify-content: space-between; */
+}
+
+li::marker {
+  font-size: 0.8em;
+}
+
+ul {
+  font-family: "EB Garamond", serif;
+  font-weight: 500;
+  font-size: 1.1em;
 }
 
 .boots-input {
@@ -84,4 +106,32 @@ code {
 
 .hero-preview {
   border: 1px solid black;
+}
+
+.saved-heroes {
+  display: flex;
+}
+
+.submitted-hero {
+  border: 1px solid green;
+}
+
+.for-boots {
+  display: flex;
+  align-items: center;
+}
+
+.boots-icon {
+  max-width: 30px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.build-hero-form {
+  max-width: 400px;
+}
+
+.name {
+  border-radius: 5%;
+  border-color: lightgrey;
 }

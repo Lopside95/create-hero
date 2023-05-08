@@ -35,7 +35,7 @@ function App() {
     console.log(heroes);
   }, [heroes]);
 
-  const [gold, setGold] = useState(100);
+  // const [gold, setGold] = useState(100);
 
   const [boots, setBoots] = useState([
     {
@@ -45,7 +45,9 @@ function App() {
       attackSpeed: 10,
       damage: 0,
       health: 0,
-      bonus: 10, //treads adds a bonus 10 of whichever attribute is selected
+      bonus: 10,
+      // attributePoints: 10,
+      //treads adds a bonus 10 of whichever attribute is selected
       // and each point of a hero's primary attr increases their damage by 1
       // cost: 12,
     },
@@ -57,6 +59,7 @@ function App() {
       damage: 20,
       health: 0,
       bonus: "Phase Shift",
+      // attributePoints: "",
       // cost: 10,
     },
     {
@@ -67,6 +70,7 @@ function App() {
       damage: 0,
       health: 0,
       bonus: "TP to creeps",
+      // attributePoints: "",
       // cost: 15,
     },
   ]);
@@ -75,19 +79,19 @@ function App() {
     {
       id: "strength",
       name: "Strength",
-      effect: "Increases hitpoints",
+      effect: " health",
       amount: 10,
     },
     {
       id: "agility",
       name: "Agility",
-      effect: "Increases attack speed",
+      effect: " attack speed",
       amount: 10,
     },
     {
       id: "intelligence",
       name: "Intelligence",
-      effect: "Increases mana",
+      effect: " mana",
       amount: 10,
     },
   ]);
@@ -135,7 +139,7 @@ function App() {
   // added ternaries to avoid unused/blank bullet points
 
   const bootElements = boots.map((boot) => (
-    <ul className="boot-stats" key={boot.id}>
+    <ul className="boot-elements" key={boot.id}>
       <h4>{boot.name}</h4>
       <li>Move speed: {boot.moveSpeed}</li>
       {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
@@ -144,7 +148,16 @@ function App() {
       ) : (
         ""
       )}
-      {boot.bonus && <li>Bonus: {boot.bonus}</li>}
+      {/* {boot.attributePoints && (
+        <li>Attribute Points: {boot.attributePoints}</li>
+      )} */}
+      {boot.name === "Power Treads" ? (
+        <li>+ {boot.bonus} Primary Attribute</li>
+      ) : (
+        <li>{boot.bonus}</li>
+      )}
+
+      {/* {boot.bonus && <li>Bonus: {boot.bonus}</li>} */}
     </ul>
   ));
 
@@ -331,9 +344,12 @@ function App() {
     return (
       <div className="submitted-hero">
         <h3>{`${team.firstName} ${team.lastName}`}</h3>
-        <h4>{`Attribute: ${team.chosenAttribute}`}</h4>
-        <h4>{`Boots: ${team.chosenBoots}`}</h4>
-        <h4>{`Weapon: ${team.chosenWeapon}`}</h4>
+        <h4>{team.chosenAttribute}</h4>
+        <div className="for-boots">
+          <h4>{team.chosenBoots}</h4>
+          <img className="boots-icon" src="./boot-outline.png" alt="" />
+        </div>
+        <h4>{team.chosenWeapon}</h4>
         <h5>{`Health = ${team.totalHealth}`}</h5>
         <h5>{`Mana = ${team.totalMana}`}</h5>
         <h5>{`Damage = ${team.totalDamage}`}</h5>
@@ -358,19 +374,21 @@ function App() {
     <div className="random-hero">
       <Container>
         <Row>
-          <Col className="build-hero">
+          <Col className="user-inputs">
             <label htmlFor="build-hero">Build a new Hero</label>
             <form className="build-hero-form" onSubmit={submitHero}>
               <input
+                className="first name"
                 type="text"
-                placeholder="Type first name"
+                placeholder="First name . . ."
                 name="firstName"
                 value={heroes.firstName}
                 onChange={handleChange}
               />
               <input
+                className="last name"
                 type="text"
-                placeholder="Type last name"
+                placeholder="Last name . . ."
                 name="lastName"
                 value={heroes.lastName}
                 onChange={handleChange}
@@ -388,9 +406,13 @@ function App() {
                         checked={heroes.chosenAttribute === attribute.name}
                         onChange={handleChange}
                       />
-                      {attribute.name}, {attribute.effect}
+                      <h5>{attribute.name}</h5>
+                      <p>+ {attribute.effect}</p>
                     </label>
                   ))}
+                  {/* <div className="attr-bullet-points">
+                    <p>{attributes.effect}</p>
+                  </div> */}
                 </Col>
               </Row>
 
@@ -413,6 +435,8 @@ function App() {
                   ))}
                 </Col>
               </Row>
+              <br />
+              <br />
               <Row>
                 <Col>
                   <h5>Weapons</h5>
@@ -443,11 +467,21 @@ function App() {
             </form>
           </Col>
           <Col className="item-descriptions">
-            <Col>{bootElements}</Col>
-            <Col>{weaponsElements}</Col>
-            <Col lg={1} className="gold-counter">
-              <h2 className="gold-amount">{gold}</h2>
+            <Col>
+              <Row>{bootElements}</Row>
+              <Row>{weaponsElements}</Row>
+              <Row className="hero-preview">
+                Hero Preview
+                <h5>{`Health = ${totalHealth}`}</h5>
+                <h5>{`Mana = ${totalMana}`}</h5>
+                <h5>{`Damage = ${totalDamage}`}</h5>
+                <h5>{`Attack Speed = ${totalAttackSpeed}`}</h5>
+                <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
+              </Row>
             </Col>
+            {/* <Col lg={1} className="gold-counter">
+              <h2 className="gold-amount">{gold}</h2>
+            </Col> */}
           </Col>
         </Row>
         <Row>
@@ -455,18 +489,17 @@ function App() {
             Hero Selections
             <BuiltHero />
           </Col>
-          <Col className="hero-preview">
+          {/* <Col className="hero-preview">
             Hero Preview
             <h5>{`Health = ${totalHealth}`}</h5>
             <h5>{`Mana = ${totalMana}`}</h5>
             <h5>{`Damage = ${totalDamage}`}</h5>
             <h5>{`Attack Speed = ${totalAttackSpeed}`}</h5>
             <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
-          </Col>
+          </Col> */}
         </Row>
         <Row>
-          <Col>{teamMembers}</Col>
-          <Col></Col>
+          <Col className="saved-heroes">{teamMembers}</Col>
         </Row>
       </Container>
     </div>

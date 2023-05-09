@@ -23,20 +23,16 @@ h6 {
   font-family: "Inter", sans-serif;
 }
 
-.attributes-details {
-  display: flex;
-  flex-direction: column;
+.main {
 }
 
-.img-2 {
-  width: 100px;
-  height: 100px;
-  border: 2px solid green;
+.all-menus {
+  max-width: 450px;
+  margin-right: 5%;
 }
 
-.user-inputs {
-  border: 1px solid purple;
-  width: 300px;
+.attributes {
+  background: rgb(226, 243, 249);
 }
 
 .boots-menu {
@@ -44,39 +40,23 @@ h6 {
   flex-direction: column;
 }
 
-.gold-amount {
-  color: gold;
-  text-shadow: 1px 0 black, 0 1px black, -1px 0 black, 0 -1px black;
-}
-
+/* beginning of item maps */
 .item-descriptions {
   display: flex;
-}
-
-.user-inputs {
-  position: relative;
-}
-
-/* .boot-elements {
-  border: 1px solid black;
-  display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-} */
-/* 
-.boot-stats:hover {
-  background-color: lightblue;
-} */
+  margin-right: 5%;
+}
+
+.all-menus {
+  border: 1px solid blue;
+}
 
 .boot-elements {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   height: 1fr;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-
-  /* list-style-type: none; */
-  /* justify-content: space-between; */
 }
 
 li::marker {
@@ -87,6 +67,15 @@ ul {
   font-family: "EB Garamond", serif;
   font-weight: 500;
   font-size: 1.1em;
+}
+
+/* live preview/calculations of hero selections */
+.live-preview {
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
 }
 
 .boots-input {
@@ -102,10 +91,6 @@ ul {
 .attributes-input {
   display: flex;
   flex-direction: column;
-}
-
-.hero-preview {
-  border: 1px solid black;
 }
 
 .saved-heroes {
@@ -127,11 +112,18 @@ ul {
   margin-left: 10px;
 }
 
-.build-hero-form {
-  max-width: 400px;
+.sword-icon {
+  max-width: 30px;
+  height: 20px;
+  margin-left: 10px;
 }
 
 .name {
   border-radius: 5%;
   border-color: lightgrey;
+}
+
+.gold-amount {
+  color: gold;
+  text-shadow: 1px 0 black, 0 1px black, -1px 0 black, 0 -1px black;
 }

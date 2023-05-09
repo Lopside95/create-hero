@@ -46,6 +46,7 @@ function App() {
       damage: 0,
       health: 0,
       bonus: 10,
+      // outline: false,
       // attributePoints: 10,
       //treads adds a bonus 10 of whichever attribute is selected
       // and each point of a hero's primary attr increases their damage by 1
@@ -59,6 +60,7 @@ function App() {
       damage: 20,
       health: 0,
       bonus: "Phase Shift",
+      // outline: false,
       // attributePoints: "",
       // cost: 10,
     },
@@ -70,6 +72,7 @@ function App() {
       damage: 0,
       health: 0,
       bonus: "TP to creeps",
+      // outline: false,
       // attributePoints: "",
       // cost: 15,
     },
@@ -138,8 +141,27 @@ function App() {
 
   // added ternaries to avoid unused/blank bullet points
 
+  const attrChangeColor = () => {
+    if (heroes.chosenAttribute === "Strength") {
+      return "red";
+    } else if (heroes.chosenAttribute === "Agility") {
+      return "green";
+    } else if (heroes.chosenAttribute === "Intelligence") {
+      return "blue";
+    } else {
+      return "white";
+    }
+  };
+
+  const attrTextColors = {
+    color: attrChangeColor(),
+    // border: `1px solid ${attrChangeColor()}`,
+  };
+
+  const bootStyles = {};
+
   const bootElements = boots.map((boot) => (
-    <ul className="boot-elements" key={boot.id}>
+    <ul className="boot-elements" key={boot.id} style={bootStyles}>
       <h4>{boot.name}</h4>
       <li>Move speed: {boot.moveSpeed}</li>
       {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
@@ -340,6 +362,12 @@ function App() {
     <SubmittedHero team={team} key={team.id} />
   ));
 
+  const bootsIcon = (
+    <img className="boots-icon" src="./boot-outline.png" alt="" />
+  );
+
+  const swordIcon = <img className="sword-icon" src="./SwordIcon.png" alt="" />;
+
   function SubmittedHero({ team }) {
     return (
       <div className="submitted-hero">
@@ -359,24 +387,90 @@ function App() {
     );
   }
 
-  function BuiltHero() {
+  function InputsPreview() {
+    const styles = {
+      // backgroundColor: changeColor(),
+      color: attrChangeColor(),
+    };
+
     return (
       <div className="display-hero">
-        <h1>{`${heroes.firstName} ${heroes.lastName}`}</h1>
-        <h4>{`Attribute: ${heroes.chosenAttribute}`}</h4>
-        <h4>{`Boots: ${heroes.chosenBoots}`}</h4>
-        <h4>{`Weapon: ${heroes.chosenWeapon}`}</h4>
+        <h3>{`Name: ${heroes.firstName} ${heroes.lastName}`}</h3>
+        <br></br>
+        {heroes.chosenAttribute ? (
+          <h4 style={styles}>{heroes.chosenAttribute}</h4>
+        ) : (
+          <h4>Attribute</h4>
+        )}
+
+        {heroes.chosenBoots ? (
+          <h4>
+            {heroes.chosenBoots}
+            {bootsIcon}
+          </h4>
+        ) : (
+          <h4>Boots</h4>
+        )}
+        {heroes.chosenWeapon ? (
+          <h4>
+            {heroes.chosenWeapon} {swordIcon}
+          </h4>
+        ) : (
+          <h4>Weapon</h4>
+        )}
+        {/* <h4>{`${heroes.chosenAttribute}`}</h4> */}
+        {/* <h4>{`${heroes.chosenBoots}`}</h4> */}
+
+        {/* <h4>{`${heroes.chosenWeapon}`}</h4> */}
       </div>
     );
   }
 
+  function ResultsPreview() {
+    const styles = {
+      // backgroundColor: changeColor(),
+      color: attrChangeColor(),
+    };
+
+    return (
+      <div className="hero-preview">
+        <h5
+          className="preview-health"
+          // style={styles}
+        >{`${totalHealth} Health`}</h5>
+        <h5>{`${totalMana} Mana`}</h5>
+        <h5>{`${totalDamage} Damage`}</h5>
+        <h5>{`${totalAttackSpeed} Attack speed`}</h5>
+        <h5>{`${totalMoveSpeed} Movement speed`}</h5>
+      </div>
+    );
+  }
+  // function ResultsPreview() {
+  //   return (
+  //     <div className="hero-preview">
+  //       <h5>{`Health = ${totalHealth} Health`}</h5>
+  //       <h5>{`Mana = ${totalMana} Mana`}</h5>
+  //       <h5>{`Damage = ${totalDamage} Damage`}</h5>
+  //       <h5>{`Attack Speed = ${totalAttackSpeed} Attack speed`}</h5>
+  //       <h5>{`Move Speed = ${totalMoveSpeed} Movement speed`}</h5>
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className="random-hero">
       <Container>
-        <Row>
-          <Col className="user-inputs">
+        <Row className="header">
+          <Col>
+            Select Attributes and items, keeping in my synergies, to create
+            heroes and assemble a team
+          </Col>
+          <Col></Col>
+        </Row>
+        <Row className="main">
+          <Col className="all-menus">
             <label htmlFor="build-hero">Build a new Hero</label>
-            <form className="build-hero-form" onSubmit={submitHero}>
+            <form className="form" onSubmit={submitHero}>
               <input
                 className="first name"
                 type="text"
@@ -394,7 +488,7 @@ function App() {
                 onChange={handleChange}
               />
 
-              <Row>
+              <Row className="attributes">
                 <Col className="attributes-details">
                   <h5>Primary Attribute</h5>
                   {attributes.map((attribute) => (
@@ -456,7 +550,6 @@ function App() {
               </Row>
               <br />
               <br />
-
               <button
                 className="create-hero-button"
                 type="submit"
@@ -470,33 +563,13 @@ function App() {
             <Col>
               <Row>{bootElements}</Row>
               <Row>{weaponsElements}</Row>
-              <Row className="hero-preview">
-                Hero Preview
-                <h5>{`Health = ${totalHealth}`}</h5>
-                <h5>{`Mana = ${totalMana}`}</h5>
-                <h5>{`Damage = ${totalDamage}`}</h5>
-                <h5>{`Attack Speed = ${totalAttackSpeed}`}</h5>
-                <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
-              </Row>
             </Col>
-            {/* <Col lg={1} className="gold-counter">
-              <h2 className="gold-amount">{gold}</h2>
-            </Col> */}
           </Col>
-        </Row>
-        <Row>
-          <Col className="hero-elements">
-            Hero Selections
-            <BuiltHero />
+          <Col className="live-preview">
+            <InputsPreview />
+            <ResultsPreview />
+            {/* <Row className="saved-heroes">{teamMembers}</Row> */}
           </Col>
-          {/* <Col className="hero-preview">
-            Hero Preview
-            <h5>{`Health = ${totalHealth}`}</h5>
-            <h5>{`Mana = ${totalMana}`}</h5>
-            <h5>{`Damage = ${totalDamage}`}</h5>
-            <h5>{`Attack Speed = ${totalAttackSpeed}`}</h5>
-            <h5>{`Move Speed = ${totalMoveSpeed}`}</h5>
-          </Col> */}
         </Row>
         <Row>
           <Col className="saved-heroes">{teamMembers}</Col>

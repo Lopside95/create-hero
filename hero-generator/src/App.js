@@ -59,7 +59,8 @@ function App() {
       attackSpeed: 0,
       damage: 20,
       health: 0,
-      bonus: "Phase Shift",
+      bonus:
+        "Phase Shift - move between realms, allowing the hero to attack before their turn",
       // outline: false,
       // attributePoints: "",
       // cost: 10,
@@ -71,7 +72,8 @@ function App() {
       attackSpeed: 0,
       damage: 0,
       health: 0,
-      bonus: "TP to creeps",
+      bonus:
+        "Teleport to the other side of an enemy and attack them from behind for an extra 30% damage",
       // outline: false,
       // attributePoints: "",
       // cost: 15,
@@ -107,15 +109,17 @@ function App() {
       damageType: "Physical",
       attackSpeed: 0,
       mana: 0,
+      bonus: "20% chance to land a critical hit for 130% damage",
       // cost: 40,
     },
     {
       id: "aghs",
       name: "Aghanim's Scepter",
-      damage: 80,
+      damage: 60,
       damageType: "Magical",
       attackSpeed: 10,
       mana: 15,
+      bonus: "Attack damage increased by 10% of hero's max mana",
       // cost: 30,
     },
     {
@@ -125,6 +129,7 @@ function App() {
       damageType: "Physical",
       attackSpeed: 30,
       mana: 0,
+      bonus: "15% chance to dodge incoming attacks",
       // cost: 38,
     },
   ]);
@@ -160,6 +165,21 @@ function App() {
 
   const bootStyles = {};
 
+  const treadsBonusInfo = <p>treads info</p>;
+  const phaseBonusInfo = <p>phase info</p>;
+  const tpBonusInfo = <p>tp info</p>;
+
+  const bootBonuses = () => {
+    if (heroes.chosenBoots === "Power Treads") {
+      return treadsBonusInfo;
+    } else if (heroes.chosenBoots === "Phase Boots") {
+      return phaseBonusInfo;
+    } else if (heroes.chosenBoots === "Boots of Teleportation") {
+      return tpBonusInfo;
+    } else {
+    }
+  };
+
   const bootElements = boots.map((boot) => (
     <ul className="boot-elements" key={boot.id} style={bootStyles}>
       <h4>{boot.name}</h4>
@@ -174,7 +194,10 @@ function App() {
         <li>Attribute Points: {boot.attributePoints}</li>
       )} */}
       {boot.name === "Power Treads" ? (
-        <li>+ {boot.bonus} Primary Attribute</li>
+        <li onMouseOver={handleHover}>
+          + {boot.bonus} Primary attribute - translating to +10 of attribute
+          bonus and +10 damage
+        </li>
       ) : (
         <li>{boot.bonus}</li>
       )}
@@ -183,16 +206,21 @@ function App() {
     </ul>
   ));
 
+  function handleHover() {
+    return treadsBonusInfo;
+  }
+
   const weaponsElements = weapons.map((weapon) => (
     <ul className="weapons-stats">
       <h4>{weapon.name}</h4>
       <li>Damage: {weapon.damage}</li>
-      <li>Damage Type: {weapon.damageType}</li>
+      <li>Type: {weapon.damageType}</li>
       {weapon.attackSpeed && weapon.attackSpeed > 0 ? (
         <li>Attack Speed: {weapon.attackSpeed}</li>
       ) : (
         ""
       )}
+      <li>{weapon.bonus}</li>
     </ul>
   ));
 
@@ -368,16 +396,33 @@ function App() {
 
   const swordIcon = <img className="sword-icon" src="./SwordIcon.png" alt="" />;
 
+  // const attrIcon = <img className="attr-icon" ></img>
+
+  const attrIcon = () => {
+    if (heroes.chosenAttribute === "Strength") {
+      return <img className="str icon" src="./strength-icon.png" alt="" />;
+    } else if (heroes.chosenAttribute === "Agility") {
+      return <img className="agi icon" src="./agi-icon.png" alt="" />;
+    } else if (heroes.chosenAttribute === "Intelligence") {
+      return <img className="int icon" src="./int-icon.png" alt="" />;
+    } else {
+    }
+  };
+
   function SubmittedHero({ team }) {
     return (
       <div className="submitted-hero">
         <h3>{`${team.firstName} ${team.lastName}`}</h3>
         <h4>{team.chosenAttribute}</h4>
-        <div className="for-boots">
+        <div className="subbed-boots">
           <h4>{team.chosenBoots}</h4>
-          <img className="boots-icon" src="./boot-outline.png" alt="" />
+          <img className="subbed-boots icon" src="./boot-outline.png" alt="" />
         </div>
-        <h4>{team.chosenWeapon}</h4>
+        <div className="subbed-weapon">
+          <h4>{team.chosenWeapon}</h4>
+          <img className="subbed-weapon icon" src="./SwordIcon.png" alt="" />
+        </div>
+
         <h5>{`Health = ${team.totalHealth}`}</h5>
         <h5>{`Mana = ${team.totalMana}`}</h5>
         <h5>{`Damage = ${team.totalDamage}`}</h5>
@@ -398,7 +443,9 @@ function App() {
         <h3>{`Name: ${heroes.firstName} ${heroes.lastName}`}</h3>
         <br></br>
         {heroes.chosenAttribute ? (
-          <h4 style={styles}>{heroes.chosenAttribute}</h4>
+          <h4>
+            {heroes.chosenAttribute} {attrIcon()}
+          </h4>
         ) : (
           <h4>Attribute</h4>
         )}
@@ -418,10 +465,6 @@ function App() {
         ) : (
           <h4>Weapon</h4>
         )}
-        {/* <h4>{`${heroes.chosenAttribute}`}</h4> */}
-        {/* <h4>{`${heroes.chosenBoots}`}</h4> */}
-
-        {/* <h4>{`${heroes.chosenWeapon}`}</h4> */}
       </div>
     );
   }
@@ -445,27 +488,38 @@ function App() {
       </div>
     );
   }
-  // function ResultsPreview() {
-  //   return (
-  //     <div className="hero-preview">
-  //       <h5>{`Health = ${totalHealth} Health`}</h5>
-  //       <h5>{`Mana = ${totalMana} Mana`}</h5>
-  //       <h5>{`Damage = ${totalDamage} Damage`}</h5>
-  //       <h5>{`Attack Speed = ${totalAttackSpeed} Attack speed`}</h5>
-  //       <h5>{`Move Speed = ${totalMoveSpeed} Movement speed`}</h5>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="random-hero">
       <Container>
         <Row className="header">
-          <Col>
-            Select Attributes and items, keeping in my synergies, to create
-            heroes and assemble a team
+          <Col className="intro">
+            <h4 className="intro-header">How To Play</h4>
+            <p className="intro-text">
+              Select attributes and items from the menu to create a hero. Submit
+              them and save them to your team, which will consist of 3 heroes.
+              <br />
+              Items and attributes interact with each other differently and
+              grant various bonuses. Keep these in mind when assembling your
+              team.
+            </p>
           </Col>
-          <Col></Col>
+          <Col className="attr-info">
+            <h4 className="attr-heading">Attributes</h4>
+            <p className="attr-text">
+              There are 3 different attributes to choose from, each with their
+              own bonuses. <span className="strength">Strength</span> increases
+              your hero’s maximum health,{" "}
+              <span className="agility">Agility</span> increases your hero’s
+              attack speed and{" "}
+              <span className="intelligence">Intelligence</span> increases your
+              hero’s maximum mana pool.
+              <br />
+              Each attribute point increases its corresponding bonus by 1. For
+              example, 1 strength point increases health by 1. Similarly, each
+              point of a hero’s primary attribute increases their damage by 1.
+            </p>
+          </Col>
         </Row>
         <Row className="main">
           <Col className="all-menus">
@@ -565,10 +619,13 @@ function App() {
               <Row>{weaponsElements}</Row>
             </Col>
           </Col>
+
           <Col className="live-preview">
-            <InputsPreview />
-            <ResultsPreview />
-            {/* <Row className="saved-heroes">{teamMembers}</Row> */}
+            <Row>
+              <InputsPreview />
+              <ResultsPreview />
+              {}
+            </Row>
           </Col>
         </Row>
         <Row>

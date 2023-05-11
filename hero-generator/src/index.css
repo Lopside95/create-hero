@@ -29,6 +29,11 @@ p {
   font-size: 1.1rem;
 }
 
+.form-start {
+  font-family: "Inter", serif;
+  font-size: large;
+}
+
 .main {
 }
 
@@ -42,12 +47,15 @@ p {
 
 .strength {
   color: #c30000;
+  font-weight: 600;
 }
 .agility {
   color: #33b107;
+  font-weight: 600;
 }
 .intelligence {
   color: #0831c2;
+  font-weight: 600;
 }
 
 .all-menus {
@@ -97,6 +105,10 @@ ul {
   flex-direction: column;
   justify-content: space-between;
   background: white;
+  align-self: center;
+  /* position: fixed;
+  top: 100px;
+  left: 60vw; */
 }
 
 .boots-input {
@@ -118,10 +130,6 @@ ul {
   display: flex;
 }
 
-.submitted-hero {
-  border: 1px solid green;
-}
-
 .subbed-boots {
   display: flex;
   align-items: center;
@@ -138,17 +146,15 @@ ul {
   align-items: center;
 }
 
-.sword-icon {
+.subbed-attr {
+  display: flex;
+}
+
+.weapon-icon {
   max-width: 30px;
   height: 20px;
   margin-left: 10px;
 }
-
-/* .subbed-weapon-icon {
-  max-width: 30px;
-  height: 20px;
-  margin-left: 10px;
-} */
 
 .icon {
   max-width: 30px;
@@ -159,6 +165,24 @@ ul {
 .name {
   border-radius: 5%;
   border-color: lightgrey;
+}
+
+.submitted-hero {
+  min-width: 300px;
+  max-width: auto;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* margin-left: 2%; */
+  /* margin-right: 2%; */
+}
+
+.saved-heroes {
+  padding-top: 3%;
+  justify-content: flex-start;
+  /* margin-left: 5%; */
+  /* margin-right: 5%; */
 }
 
 .gold-amount {

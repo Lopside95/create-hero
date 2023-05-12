@@ -12,4 +12,4 @@ a. Also to possibly have information to display on when mousing over elements. (
 
 4. Would like to add an option allowing users to delete a hero they've submitted - so that they don't have to lose every hero if they want to rework their team
 
-5. Wasn't entireley how to go about changing redifining the mana/totalMana stuff as well
+5. Wasn't entireley how to go about changing redifining the mana/totalMana stuff as well and some of the name changes and so on. 

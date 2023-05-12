@@ -1,3 +1,7 @@
+/* * {
+  border: 1px solid red;
+} */
+
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 body {
@@ -29,31 +33,32 @@ p {
   font-size: 1.1rem;
 }
 
-.form-start {
+.form-header {
   font-family: "Inter", serif;
   font-size: large;
 }
 
 .main {
+  border: 1px solid red;
 }
 
 .intro-header {
   text-align: center;
 }
 
-.attr-heading {
+.attr-info-heading {
   text-align: center;
 }
 
-.strength {
+.strength-word {
   color: #c30000;
   font-weight: 600;
 }
-.agility {
+.agility-word {
   color: #33b107;
   font-weight: 600;
 }
-.intelligence {
+.intelligence-word {
   color: #0831c2;
   font-weight: 600;
 }
@@ -64,51 +69,16 @@ p {
   border: 1px solid blue;
 }
 
-.attributes {
-  background: rgb(226, 243, 249);
+.name {
+  border-radius: 5%;
+  background-color: white;
+  /* border-color: lightgrey; */
+  /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); */
 }
 
-.boots-menu {
+.attributes-input {
   display: flex;
   flex-direction: column;
-}
-
-/* beginning of item maps */
-.item-descriptions {
-  display: flex;
-  flex-direction: column;
-  margin-right: 5%;
-}
-
-.boot-elements {
-  /* border: 1px solid red; */
-  height: 1fr;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-li::marker {
-  font-size: 0.8em;
-}
-
-ul {
-  font-family: "EB Garamond", serif;
-  font-weight: 500;
-  font-size: 1.1em;
-}
-
-/* live preview/calculations of hero selections */
-.live-preview {
-  max-height: 350px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: white;
-  align-self: center;
-  /* position: fixed;
-  top: 100px;
-  left: 60vw; */
 }
 
 .boots-input {
@@ -121,24 +91,57 @@ ul {
   flex-direction: column;
 }
 
-.attributes-input {
+/* beginning of boot and weapons info maps */
+.item-descriptions {
   display: flex;
   flex-direction: column;
+  margin-right: 5%;
 }
 
-.saved-heroes {
+.boots-elements {
+  border: 1px solid red;
+  height: 1fr;
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.weapons-elements {
+  border: 1px solid red;
+  height: 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+ul {
+  font-family: "EB Garamond", serif;
+  font-weight: 500;
+  font-size: 1.1em;
+}
+
+li::marker {
+  font-size: 0.8em;
+}
+/* live preview/calculations of hero selections */
+.live-preview {
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+  align-self: center;
+  border: 1px solid green;
+  /* 
+  considered fixing position so that preview was always visible as users scrolled 
+  position: fixed;
+  top: 100px;
+  left: 60vw; */
 }
 
 .subbed-boots {
   display: flex;
   align-items: center;
-}
-
-.boots-icon {
-  max-width: 30px;
-  height: 20px;
-  margin-left: 10px;
 }
 
 .subbed-weapon {
@@ -150,23 +153,14 @@ ul {
   display: flex;
 }
 
-.weapon-icon {
-  max-width: 30px;
-  height: 20px;
-  margin-left: 10px;
-}
-
+/* Manages all icons, individual icons can be specified if need be */
 .icon {
   max-width: 30px;
   height: 20px;
   margin-left: 10px;
 }
 
-.name {
-  border-radius: 5%;
-  border-color: lightgrey;
-}
-
+/* This refers to individual heroes that have been submitted */
 .submitted-hero {
   min-width: 300px;
   max-width: auto;
@@ -178,14 +172,11 @@ ul {
   /* margin-right: 2%; */
 }
 
-.saved-heroes {
+/* This refers to all team members */
+.team-heroes {
+  display: flex;
   padding-top: 3%;
   justify-content: flex-start;
   /* margin-left: 5%; */
   /* margin-right: 5%; */
-}
-
-.gold-amount {
-  color: gold;
-  text-shadow: 1px 0 black, 0 1px black, -1px 0 black, 0 -1px black;
 }

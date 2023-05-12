@@ -130,11 +130,11 @@ function App() {
   ]);
 
   const bootsIcon = (
-    <img className="boots-icon" src="./boot-outline.png" alt="" />
+    <img className="boots icon" src="./boot-outline.png" alt="" />
   );
 
   const weaponIcon = (
-    <img className="weapon-icon" src="./weapon-icon.png" alt="" />
+    <img className="weapon icon" src="./weapon-icon.png" alt="" />
   );
 
   // Which attribute icon to be displayed is conditional and this function returns the appropriate src
@@ -163,7 +163,7 @@ function App() {
 
   // This changes the colour of e.g. a border / text or some other kind of
   // visual effect based on which attribute is selected
-  // Not currently in use but they hex values are used by the css for the intro text
+  // Not currently in use*
   const attrChangeColor = () => {
     if (heroes.chosenAttribute === "Strength") {
       return "#c30000";
@@ -175,6 +175,7 @@ function App() {
     }
   };
 
+  // also not in use*
   const attrTextColors = {
     color: attrChangeColor(),
     // border: `1px solid ${attrChangeColor()}`,
@@ -183,7 +184,7 @@ function App() {
   // this element maps over the information in boots state to render the different options
   // added ternaries to avoid unused/blank bullet points
   const bootElements = boots.map((boot) => (
-    <ul className="boot-elements" key={boot.id}>
+    <ul className="boots-elements" key={boot.id}>
       <h4>{boot.name}</h4>
       <li>Move speed: {boot.moveSpeed}</li>
       {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
@@ -194,9 +195,7 @@ function App() {
       )}
 
       {boot.name === "Power Treads" ? (
-        <li>
-          + {boot.bonus} Primary attribute = +10 attribute bonus and +10 damage
-        </li>
+        <li>+ {boot.bonus} Attribute = +10 attribute bonus and +10 damage</li>
       ) : (
         <li>{boot.bonus}</li>
       )}
@@ -205,7 +204,7 @@ function App() {
 
   // works the same way as bootsElements
   const weaponsElements = weapons.map((weapon) => (
-    <ul className="weapons-stats">
+    <ul className="weapons-elements">
       <h4>{weapon.name}</h4>
       <li>Damage: {weapon.damage}</li>
       <li>Type: {weapon.damageType}</li>
@@ -363,7 +362,7 @@ function App() {
   function InputsPreview() {
     return (
       <div className="inputs-preview">
-        <h3>{`Name: ${heroes.firstName} ${heroes.lastName}`}</h3>
+        <h3 className="preview-name">{`Name: ${heroes.firstName} ${heroes.lastName}`}</h3>
         <br></br>
         {heroes.chosenAttribute ? (
           <h4>
@@ -392,7 +391,7 @@ function App() {
     );
   }
 
-  function ResultsPreview() {
+  function CalculationsPreview() {
     return (
       <div className="hero-preview">
         <h5 className="preview-health">{`${totalHealth} Health`}</h5>
@@ -458,6 +457,7 @@ function App() {
       } else if (team.chosenAttribute === "Intelligence") {
         return <img className="int icon" src="./int-icon.png" alt="" />;
       } else {
+        return <img className="blank icon" src="./blank-icon.png" alt="" />;
       }
     };
 
@@ -480,7 +480,7 @@ function App() {
         </div>
         <div className="subbed-weapon">
           <h4>{team.chosenWeapon}</h4>
-          <img className="weapon icon" src="./weapon-icon.png" alt="" />
+          <img className="subbed-weapon icon" src="./weapon-icon.png" alt="" />
         </div>
         <h5>{`Health = ${team.totalHealth}`}</h5>
         <h5>{`Mana = ${team.totalMana}`}</h5>
@@ -495,6 +495,8 @@ function App() {
     <div className="random-hero">
       <Container>
         <Row className="header">
+          {/* I think maybe I've made too many/unnecessary classes?
+          and also they need to be standardised more */}
           <Col className="intro">
             <h4 className="intro-header">How To Play</h4>
             <p className="intro-text">
@@ -507,28 +509,31 @@ function App() {
             </p>
           </Col>
           <Col className="attr-info">
-            <h4 className="attr-heading">Attributes</h4>
-            <p className="attr-text">
+            <h4 className="attr-info-heading">Attributes</h4>
+            <p className="attr-info-text">
               There are 3 different attributes to choose from, each with their
-              own bonuses. <span className="strength">Strength</span> increases
-              your hero’s maximum health,
-              <span className="agility">Agility</span> increases your hero’s
-              attack speed and
-              <span className="intelligence">Intelligence</span> increases your
-              hero’s maximum mana pool.
+              own bonuses. <span className="strength-word"> Strength</span>{" "}
+              increases your hero’s maximum health,
+              <span className="agility-word"> Agility</span> increases your
+              hero’s attack speed and
+              <span className="intelligence-word"> Intelligence</span> increases
+              your hero’s maximum mana pool.
               <br />
               Each attribute point increases its corresponding bonus by 1. For
               example, 1 strength point increases health by 1. Similarly, each
-              point of a hero’s primary attribute increases their damage by 1.
+              point of a hero’s attribute increases their damage by 1.
             </p>
           </Col>
-          <label htmlFor="build-hero" className="form-start">
-            <h5>Start by choosing a primary attribute</h5>
+          <label htmlFor="build-hero" className="form-header">
+            <h5>Choose a name</h5>
           </label>
         </Row>
         <Row className="main">
+          {/* Can't figure out how to get the radion buttons to line up with the
+            text */}
           <Col className="all-menus">
-            {/* The form consists of text and radio inputs */}
+            {/* The form consists of text and radio inputs 
+            These text inputs  allow users to give their hero a name*/}
             <form className="form" onSubmit={submitHero}>
               <input
                 className="first name"
@@ -546,11 +551,12 @@ function App() {
                 value={heroes.lastName}
                 onChange={handleChange}
               />
-
-              <Row className="attributes">
-                <Col className="attributes-details">
+              <br />
+              <br />
+              <Row className="attributes-menu">
+                <Col>
                   {/* This maps the available attribute options and allows for selection */}
-                  <h5>Primary Attribute</h5>
+                  <h5>Attribute</h5>
                   {attributes.map((attribute) => (
                     <label className="attributes-input" key={attribute.id}>
                       <input
@@ -571,7 +577,6 @@ function App() {
               <br />
               <Row>
                 <Col>
-                  Maps the
                   <h5>Boots</h5>
                   {/* This maps the available boot options and allows for selection */}
                   {boots.map((boot) => (
@@ -590,7 +595,7 @@ function App() {
               </Row>
               <br />
               <br />
-              <Row>
+              <Row className="weapons-menu">
                 <Col>
                   <h5>Weapons</h5>
                   {/* This maps the available weapon options and allows for selection */}
@@ -622,17 +627,18 @@ function App() {
               <Row>{weaponsElements}</Row>
             </Col>
           </Col>
-
           {/* Live preview renders the selected items and calculated values before submit */}
+          {/* I've put the preview in the middle- vertically- of the page so that
+          the preview is visible{" "} */}
           <Col className="live-preview">
             <Row>
               <InputsPreview />
-              <ResultsPreview />
+              <CalculationsPreview />
             </Row>
           </Col>
         </Row>
         <Row>
-          <Col className="saved-heroes">{teamMembers}</Col>
+          <Col className="team-heroes">{teamMembers}</Col>
         </Row>
       </Container>
     </div>

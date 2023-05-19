@@ -46,6 +46,11 @@ function App() {
     {
       id: "none",
       name: "None",
+      moveSpeed: 0,
+      attackSpeed: 0,
+      damage: 0,
+      health: 0,
+      bonus: 0,
     },
     {
       id: "treads",
@@ -83,6 +88,8 @@ function App() {
     {
       id: "none",
       name: "None",
+      effect: "none",
+      amount: 0,
     },
     {
       id: "strength",
@@ -110,6 +117,11 @@ function App() {
     {
       id: "none",
       name: "None",
+      damage: 0,
+      damageType: "",
+      attackSpeed: 0,
+      mana: 0,
+      bonus: "",
     },
     {
       id: "daedalus",
@@ -194,7 +206,7 @@ function App() {
 
   // this element maps over the information in boots state to render the different options
   // added ternaries to avoid unused/blank bullet points
-  const bootElements = boots.map((boot) => (
+  const bootsElements = boots.map((boot) => (
     <ul className="boots-elements" key={boot.id}>
       <h4>{boot.name}</h4>
       <li>Move speed: {boot.moveSpeed}</li>
@@ -213,7 +225,22 @@ function App() {
     </ul>
   ));
 
-  // works the same way as bootsElements
+  // Boots elements redone
+
+  // const bootsElements = boots.map((boot) => (
+  //   <ul className="boots-elements" key={boot.id}>
+  //     {boot.name === "Power Treads" ? (
+  //       <li>
+  //         {boot.moveSpeed}
+  //         {}
+  //       </li>
+  //     ) : (
+  //       ""
+  //     )}
+  //   </ul>
+  // ));
+
+  // works the same way as bootElements
   const weaponsElements = weapons.map((weapon) => (
     <ul className="weapons-elements">
       <h4>{weapon.name}</h4>
@@ -445,11 +472,9 @@ function App() {
       attackSpeed: 10,
       damage: 10,
       moveSpeed: 30,
-      chosenAttribute: "",
-      chosenBoots: "",
-      chosenArmor: "",
-      chosenWeapon: "",
-      chosenBonus: "",
+      chosenAttribute: "None",
+      chosenBoots: "None",
+      chosenWeapon: "None",
     });
   }
 
@@ -503,6 +528,14 @@ function App() {
     );
   }
 
+  const treads = boots[1];
+  const phase = boots[2];
+  const tpBoots = boots[3];
+
+  const daedalus = weapons[1];
+  const aghs = weapons[2];
+  const butterfly = weapons[3];
+
   return (
     <div className="random-hero">
       <Container>
@@ -526,8 +559,11 @@ function App() {
               There are 3 different attributes to choose from, each with their
               own bonuses. <span className="strength-word"> Strength</span>{" "}
               increases your hero’s maximum health,
-              <span className="agility-word"> Agility</span> increases your
-              hero’s attack speed and
+              <span style={{ color: "#33b107", fontWeight: "600" }}>
+                {" "}
+                Agility{" "}
+              </span>{" "}
+              increases your hero’s attack speed and
               <span className="intelligence-word"> Intelligence</span> increases
               your hero’s maximum mana pool.
               <br />
@@ -635,9 +671,109 @@ function App() {
           </Col>
           <Col className="item-descriptions">
             <Col>
-              <Row className="boot-elements-row">{bootElements}</Row>
+              <Row>
+                {/* {bootsToDisplay} */}
+
+                {/* {heroes.chosenBonus !== "None" ?
+                    <ul key={heroes.chosenBoots}>
+                    
+
+
+                    </ul>
+                    : <h2>Select Boots</h2>} */}
+              </Row>
+
+              {/* <Row className="boot-elements-row">{bootsElements}</Row> */}
+              {/* <Row className="boot-elements-row">
+                {heroes.chosenBoots === "None" && <h2>Select Boots</h2>}
+                {heroes.chosenBoots === "Power Treads" && (
+                  <ul>
+                    <li>{boots[1].name}</li>
+                    <li>{boots[1].moveSpeed}</li>
+
+                    {boots[1].attackSpeed && (
+                      <li> Attack Speed: {boots[1].attackSpeed}</li>
+                    )}
+                    <li>{boots[1].damage}</li>
+                    <li>{boots[1].health}</li>
+                  </ul>
+                )}
+              </Row> */}
+              <Row>
+                {heroes.chosenBoots === "None" && <h6>Select Boots</h6>}
+                {heroes.chosenBoots === "Power Treads" && (
+                  <ul>
+                    <h5>{treads.name}</h5>
+                    <li>Move Speed: {treads.moveSpeed}</li>
+                    <li>Attack Speed: {treads.attackSpeed}</li>
+                    <li> +{treads.bonus} attribute points</li>
+                  </ul>
+                )}
+                {heroes.chosenBoots === "Phase Boots" && (
+                  <ul>
+                    <h5>{phase.name}</h5>
+                    <li>Move Speed:{phase.moveSpeed}</li>
+                    <li>Damage: {phase.damage}</li>
+                    <li>Bonus: {phase.bonus}</li>
+                  </ul>
+                )}
+                {heroes.chosenBoots === "Boots of Teleportation" && (
+                  <ul className="tpBoots-list">
+                    <h5>{tpBoots.name}</h5>
+                    <li>Move Speed: {tpBoots.moveSpeed}</li>
+                    <li>Bonus: {tpBoots.bonus}</li>
+                  </ul>
+                )}
+              </Row>
+
+              <Row className="weapon-display-row">
+                {heroes.chosenWeapon !== "None" ? (
+                  <ul className="weapon-elements">
+                    <h5>{heroes.chosenWeapon}</h5>
+                    <li>{heroSelections().selectedWeapon.damage}</li>
+                    <li>{heroSelections().selectedWeapon.damageType}</li>
+                    {heroSelections().selectedWeapon.attackSpeed > 0 && (
+                      <li>
+                        Attack Speed:
+                        {heroSelections().selectedWeapon.attackSpeed}{" "}
+                      </li>
+                    )}
+                  </ul>
+                ) : (
+                  "Select a weapon"
+                )}
+              </Row>
+              {/* <Row>
+                {heroes.chosenWeapon === "Daedalus" && (
+                  <ul className="daedalus-list">
+                    <h5>{daedalus.name}</h5>
+                    <li>{}</li>
+                  </ul>
+                )}
+              </Row> */}
+
+              {/* <Row>
+                {weapons.map(
+                  (weapon, index) =>
+                    heroes.chosenWeapon?.[index] && (
+                      <ul key={index}>
+                        <li>{heroes.selectedWeapon[index].name}</li>
+                        <li>{weapon[index].damage}</li>
+                      </ul>
+                    )
+                )}
+              </Row> */}
+
+              {/* <Row>
+                {heroes.chosenBoots === "Power Treads" && (
+                  <ul className="treads-list" key={boots.id}>
+                    <li>{"treads".attackSpeed}</li>
+                  </ul>
+                )}
+              </Row> */}
+
               <br />
-              <Row>{weaponsElements}</Row>
+              {/* <Row>{weaponsElements}</Row> */}
             </Col>
           </Col>
           {/* Live preview renders the selected items and calculated values before submit */}

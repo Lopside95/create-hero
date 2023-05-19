@@ -21,10 +21,9 @@ function App() {
     attackSpeed: 10,
     damage: 10,
     moveSpeed: 30,
-    chosenAttribute: "",
-    chosenBoots: "",
-    chosenArmor: "",
-    chosenWeapon: "",
+    chosenAttribute: "None",
+    chosenBoots: "None",
+    chosenWeapon: "None",
     chosenBonus: "",
   });
 
@@ -44,6 +43,10 @@ function App() {
   // each boot object holds information e.g attack speed, which is later used in
   // calculating the hero's total attack speed
   const [boots, setBoots] = useState([
+    {
+      id: "none",
+      name: "None",
+    },
     {
       id: "treads",
       name: "Power Treads",
@@ -78,6 +81,10 @@ function App() {
   // serves the same function as boots
   const [attributes, setAttributes] = useState([
     {
+      id: "none",
+      name: "None",
+    },
+    {
       id: "strength",
       name: "Strength",
       effect: " health",
@@ -101,6 +108,10 @@ function App() {
 
   const [weapons, setWeapons] = useState([
     {
+      id: "none",
+      name: "None",
+    },
+    {
       id: "daedalus",
       name: "Daedalus",
       damage: 120,
@@ -112,9 +123,9 @@ function App() {
     {
       id: "aghs",
       name: "Aghanim's Scepter",
-      damage: 60,
+      damage: 50,
       damageType: "Magical",
-      attackSpeed: 10,
+      attackSpeed: 0,
       mana: 15,
       bonus: "Attack damage increased by 10% of hero's max mana",
     },
@@ -213,6 +224,7 @@ function App() {
       ) : (
         ""
       )}
+      {weapon.mana && weapon.mana > 0 ? <li>Mana: {weapon.mana}</li> : ""}
       <li>{weapon.bonus}</li>
     </ul>
   ));
@@ -566,8 +578,9 @@ function App() {
                         checked={heroes.chosenAttribute === attribute.name}
                         onChange={handleChange}
                       />
-                      <h5>{attribute.name}</h5>
-                      <p>+ {attribute.effect}</p>
+                      {attribute.name}
+                      {/* <h5>{attribute.name}</h5> */}
+                      {/* <p>{attribute.effect}</p> */}
                     </label>
                   ))}
                 </Col>
@@ -622,7 +635,7 @@ function App() {
           </Col>
           <Col className="item-descriptions">
             <Col>
-              <Row>{bootElements}</Row>
+              <Row className="boot-elements-row">{bootElements}</Row>
               <br />
               <Row>{weaponsElements}</Row>
             </Col>
@@ -640,6 +653,8 @@ function App() {
         <Row>
           <Col className="team-heroes">{teamMembers}</Col>
         </Row>
+        <br />
+        <br />
       </Container>
     </div>
   );

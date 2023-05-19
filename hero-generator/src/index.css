@@ -40,6 +40,7 @@ p {
 
 .main {
   border: 1px solid red;
+  /* background: rgb(53, 53, 53); */
 }
 
 .intro-header {
@@ -99,11 +100,19 @@ p {
 }
 
 .boots-elements {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   height: 1fr;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  /* box-shadow: inset 0 0 0.3px 0.1px rgb(135, 135, 135); */
+  background: rgba(243, 242, 242, 0.342);
+
+  /* padding-left: 50px; */
+}
+
+.boot-elements-row {
+  box-shadow: 0 0 2px 0.5px rgb(0, 0, 0);
 }
 
 .weapons-elements {
@@ -118,6 +127,7 @@ ul {
   font-family: "EB Garamond", serif;
   font-weight: 500;
   font-size: 1.1em;
+  list-style-type: none;
 }
 
 li::marker {
@@ -168,6 +178,9 @@ li::marker {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  padding: 10px;
+  box-shadow: 0 0 2px 0.5px rgb(0, 0, 0);
+
   /* margin-left: 2%; */
   /* margin-right: 2%; */
 }

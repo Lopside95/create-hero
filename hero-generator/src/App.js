@@ -280,6 +280,28 @@ function App() {
     };
   };
 
+  // function WeaponsElements({ heroSelections().selectedWeapon }) {
+  //   return (
+  //     <ul>
+  //       <h4>{selectedWeapon.name}</h4>
+  //       <li>{selectedWeapon.damage}</li>
+  //     </ul>
+  //   );
+  // }
+
+  // using this to select weapons elements to conditionally render
+  // unable to refer to 'selectedWeapon' defining the weapon as seen below
+  const weaponForMap = heroSelections().selectedWeapon;
+  const bootsForDisplay = heroSelections().selectedBoots;
+
+  const treads = boots[1];
+  const phase = boots[2];
+  const tpBoots = boots[3];
+
+  const daedalus = weapons[1];
+  const aghs = weapons[2];
+  const butterfly = weapons[3];
+
   // This function handles form inputs. it destructures the variables from the event target
   // and saves the values in the [heroes] state
   function handleChange(event) {
@@ -528,13 +550,8 @@ function App() {
     );
   }
 
-  const treads = boots[1];
-  const phase = boots[2];
-  const tpBoots = boots[3];
-
-  const daedalus = weapons[1];
-  const aghs = weapons[2];
-  const butterfly = weapons[3];
+  // Was using these to individually render elements on the condition that they were selected
+  // found a better way
 
   return (
     <div className="random-hero">
@@ -699,7 +716,7 @@ function App() {
                   </ul>
                 )}
               </Row> */}
-              <Row>
+              {/* <Row>
                 {heroes.chosenBoots === "None" && <h6>Select Boots</h6>}
                 {heroes.chosenBoots === "Power Treads" && (
                   <ul>
@@ -724,23 +741,46 @@ function App() {
                     <li>Bonus: {tpBoots.bonus}</li>
                   </ul>
                 )}
+              </Row> */}
+
+              <Row className="boots-display-row">
+                {heroes.chosenBoots !== "None" ? (
+                  <ul>
+                    <h5>{bootsForDisplay.name}</h5>
+                    <li>Move Speed: {bootsForDisplay.moveSpeed}</li>
+                    {bootsForDisplay.attackSpeed > 0 && (
+                      <li>Attack Speed: {bootsForDisplay.attackSpeed}</li>
+                    )}
+                    {bootsForDisplay.damage > 0 && (
+                      <li>Damage: {bootsForDisplay.damage}</li>
+                    )}
+                    {bootsForDisplay.name === "Power Treads" ? (
+                      <li>+ {bootsForDisplay.bonus} attribute points</li>
+                    ) : (
+                      <li>{bootsForDisplay.bonus}</li>
+                    )}
+                  </ul>
+                ) : (
+                  "Select boots"
+                )}
               </Row>
 
               <Row className="weapon-display-row">
                 {heroes.chosenWeapon !== "None" ? (
-                  <ul className="weapon-elements">
-                    <h5>{heroes.chosenWeapon}</h5>
-                    <li>{heroSelections().selectedWeapon.damage}</li>
-                    <li>{heroSelections().selectedWeapon.damageType}</li>
-                    {heroSelections().selectedWeapon.attackSpeed > 0 && (
-                      <li>
-                        Attack Speed:
-                        {heroSelections().selectedWeapon.attackSpeed}{" "}
-                      </li>
+                  <ul className="weapon-display-list">
+                    <h5>{weaponForMap.name}</h5>
+                    <li>Damage: {weaponForMap.damage}</li>
+                    <li>{weaponForMap.damageType}</li>
+                    {weaponForMap.attackSpeed > 0 && (
+                      <li>Attack Speed: {weaponForMap.attackSpeed}</li>
                     )}
+                    {weaponForMap.mana > 0 && (
+                      <li>Mana: {weaponForMap.mana}</li>
+                    )}
+                    <li>{weaponForMap.bonus}</li>
                   </ul>
                 ) : (
-                  "Select a weapon"
+                  "select a weapon"
                 )}
               </Row>
               {/* <Row>

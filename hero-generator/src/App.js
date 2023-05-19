@@ -30,6 +30,8 @@ function App() {
   // This useEffect keeps track of, and updates, calculated values as they change through user inputs.
   // These values depend on a variety of interactions between attributes, weapons and boots.
 
+  const [submitEffect, setSubmitEffect] = useState(false);
+
   useEffect(() => {
     calculateDamage();
     calculateHealth();
@@ -291,8 +293,9 @@ function App() {
 
   // using this to select weapons elements to conditionally render
   // unable to refer to 'selectedWeapon' defining the weapon as seen below
-  const weaponForMap = heroSelections().selectedWeapon;
+  const weaponForDisplay = heroSelections().selectedWeapon;
   const bootsForDisplay = heroSelections().selectedBoots;
+  const attributeForDisplay = heroSelections().selectedAttribute;
 
   const treads = boots[1];
   const phase = boots[2];
@@ -484,6 +487,7 @@ function App() {
     // This sets the team to keep any previous heroes saved in the state and adds the new submitted hero
     setTeams((prevTeams) => [...prevTeams, updatedHero]);
 
+    setSubmitEffect(true);
     // This sets the form input back to default after submission
     setHeroes({
       id: nanoid(),
@@ -498,6 +502,8 @@ function App() {
       chosenBoots: "None",
       chosenWeapon: "None",
     });
+    alert("Submitted");
+    setSubmitEffect(false);
   }
 
   const teamMembers = teams.map((team) => (
@@ -570,7 +576,7 @@ function App() {
               team.
             </p>
           </Col>
-          <Col className="attr-info">
+          {/* <Col className="attr-info">
             <h4 className="attr-info-heading">Attributes</h4>
             <p className="attr-info-text">
               There are 3 different attributes to choose from, each with their
@@ -588,7 +594,7 @@ function App() {
               example, 1 strength point increases health by 1. Similarly, each
               point of a hero’s attribute increases their damage by 1.
             </p>
-          </Col>
+          </Col> */}
           <label htmlFor="build-hero" className="form-header">
             <h5>Choose a name</h5>
           </label>
@@ -686,135 +692,82 @@ function App() {
               </button>
             </form>
           </Col>
-          <Col className="item-descriptions">
-            <Col>
-              <Row>
-                {/* {bootsToDisplay} */}
-
-                {/* {heroes.chosenBonus !== "None" ?
-                    <ul key={heroes.chosenBoots}>
-                    
-
-
+          <Col className="displays">
+            <Row className="attributes-display-row">
+              {heroes.chosenAttribute !== "None" ? (
+                <div className="attributes-display-list">
+                  {heroes.chosenAttribute === "Strength" && (
+                    <ul>
+                      <span className="strength-word">Strength</span>
+                      <li>
+                        Each point of strength increases your hero’s maximum
+                        health by 1.
+                      </li>
+                      <li>
+                        Each attribute point also increases your hero’s damage
+                        by 1.
+                      </li>
                     </ul>
-                    : <h2>Select Boots</h2>} */}
-              </Row>
+                  )}
+                  {heroes.chosenAttribute === "Agility" && (
+                    <p>
+                      <span className="agility-word">Agility </span>
+                      increases your hero’s attack speed
+                    </p>
+                  )}
+                  {heroes.chosenAttribute === "Intelligence" && (
+                    <p>
+                      <span className="intelligence-word"> Intelligence</span>{" "}
+                      increases your hero’s maximum mana pool.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                "Select an attribute"
+              )}
+            </Row>
 
-              {/* <Row className="boot-elements-row">{bootsElements}</Row> */}
-              {/* <Row className="boot-elements-row">
-                {heroes.chosenBoots === "None" && <h2>Select Boots</h2>}
-                {heroes.chosenBoots === "Power Treads" && (
-                  <ul>
-                    <li>{boots[1].name}</li>
-                    <li>{boots[1].moveSpeed}</li>
-
-                    {boots[1].attackSpeed && (
-                      <li> Attack Speed: {boots[1].attackSpeed}</li>
-                    )}
-                    <li>{boots[1].damage}</li>
-                    <li>{boots[1].health}</li>
-                  </ul>
-                )}
-              </Row> */}
-              {/* <Row>
-                {heroes.chosenBoots === "None" && <h6>Select Boots</h6>}
-                {heroes.chosenBoots === "Power Treads" && (
-                  <ul>
-                    <h5>{treads.name}</h5>
-                    <li>Move Speed: {treads.moveSpeed}</li>
-                    <li>Attack Speed: {treads.attackSpeed}</li>
-                    <li> +{treads.bonus} attribute points</li>
-                  </ul>
-                )}
-                {heroes.chosenBoots === "Phase Boots" && (
-                  <ul>
-                    <h5>{phase.name}</h5>
-                    <li>Move Speed:{phase.moveSpeed}</li>
-                    <li>Damage: {phase.damage}</li>
-                    <li>Bonus: {phase.bonus}</li>
-                  </ul>
-                )}
-                {heroes.chosenBoots === "Boots of Teleportation" && (
-                  <ul className="tpBoots-list">
-                    <h5>{tpBoots.name}</h5>
-                    <li>Move Speed: {tpBoots.moveSpeed}</li>
-                    <li>Bonus: {tpBoots.bonus}</li>
-                  </ul>
-                )}
-              </Row> */}
-
-              <Row className="boots-display-row">
-                {heroes.chosenBoots !== "None" ? (
-                  <ul>
-                    <h5>{bootsForDisplay.name}</h5>
-                    <li>Move Speed: {bootsForDisplay.moveSpeed}</li>
-                    {bootsForDisplay.attackSpeed > 0 && (
-                      <li>Attack Speed: {bootsForDisplay.attackSpeed}</li>
-                    )}
-                    {bootsForDisplay.damage > 0 && (
-                      <li>Damage: {bootsForDisplay.damage}</li>
-                    )}
-                    {bootsForDisplay.name === "Power Treads" ? (
-                      <li>+ {bootsForDisplay.bonus} attribute points</li>
-                    ) : (
-                      <li>{bootsForDisplay.bonus}</li>
-                    )}
-                  </ul>
-                ) : (
-                  "Select boots"
-                )}
-              </Row>
-
-              <Row className="weapon-display-row">
-                {heroes.chosenWeapon !== "None" ? (
-                  <ul className="weapon-display-list">
-                    <h5>{weaponForMap.name}</h5>
-                    <li>Damage: {weaponForMap.damage}</li>
-                    <li>{weaponForMap.damageType}</li>
-                    {weaponForMap.attackSpeed > 0 && (
-                      <li>Attack Speed: {weaponForMap.attackSpeed}</li>
-                    )}
-                    {weaponForMap.mana > 0 && (
-                      <li>Mana: {weaponForMap.mana}</li>
-                    )}
-                    <li>{weaponForMap.bonus}</li>
-                  </ul>
-                ) : (
-                  "select a weapon"
-                )}
-              </Row>
-              {/* <Row>
-                {heroes.chosenWeapon === "Daedalus" && (
-                  <ul className="daedalus-list">
-                    <h5>{daedalus.name}</h5>
-                    <li>{}</li>
-                  </ul>
-                )}
-              </Row> */}
-
-              {/* <Row>
-                {weapons.map(
-                  (weapon, index) =>
-                    heroes.chosenWeapon?.[index] && (
-                      <ul key={index}>
-                        <li>{heroes.selectedWeapon[index].name}</li>
-                        <li>{weapon[index].damage}</li>
-                      </ul>
-                    )
-                )}
-              </Row> */}
-
-              {/* <Row>
-                {heroes.chosenBoots === "Power Treads" && (
-                  <ul className="treads-list" key={boots.id}>
-                    <li>{"treads".attackSpeed}</li>
-                  </ul>
-                )}
-              </Row> */}
-
-              <br />
-              {/* <Row>{weaponsElements}</Row> */}
-            </Col>
+            {/* Using 'bootsForDisplay' because trying to select using
+            'heroes.chosenBoots.attackSpeed etc wasn't working */}
+            <Row className="boots-display-row">
+              {heroes.chosenBoots !== "None" ? (
+                <ul className="boots-display-list">
+                  <h5>{bootsForDisplay.name}</h5>
+                  <li>Move Speed: {bootsForDisplay.moveSpeed}</li>
+                  {bootsForDisplay.attackSpeed > 0 && (
+                    <li>Attack Speed: {bootsForDisplay.attackSpeed}</li>
+                  )}
+                  {bootsForDisplay.damage > 0 && (
+                    <li>Damage: {bootsForDisplay.damage}</li>
+                  )}
+                  {bootsForDisplay.name === "Power Treads" ? (
+                    <li>+ {bootsForDisplay.bonus} attribute points</li>
+                  ) : (
+                    <li>{bootsForDisplay.bonus}</li>
+                  )}
+                </ul>
+              ) : (
+                "Select boots"
+              )}
+            </Row>
+            <Row className="weapons-display-row">
+              {heroes.chosenWeapon !== "None" ? (
+                <ul className="weapons-display-list">
+                  <h5>{weaponForDisplay.name}</h5>
+                  <li>Damage: {weaponForDisplay.damage}</li>
+                  <li>{weaponForDisplay.damageType}</li>
+                  {weaponForDisplay.attackSpeed > 0 && (
+                    <li>Attack Speed: {weaponForDisplay.attackSpeed}</li>
+                  )}
+                  {weaponForDisplay.mana > 0 && (
+                    <li>Mana: {weaponForDisplay.mana}</li>
+                  )}
+                  <li>{weaponForDisplay.bonus}</li>
+                </ul>
+              ) : (
+                "select a weapon"
+              )}
+            </Row>
           </Col>
           {/* Live preview renders the selected items and calculated values before submit */}
           {/* I've put the preview in the middle- vertically- of the page so that

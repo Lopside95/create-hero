@@ -53,6 +53,7 @@ p {
 
 .strength-word {
   color: #c30000;
+  font-size: large;
   font-weight: 600;
 }
 .agility-word {
@@ -92,11 +93,44 @@ p {
   flex-direction: column;
 }
 
-/* beginning of boot and weapons info maps */
-.item-descriptions {
+/* beginning of displays maps */
+
+.displays {
   display: flex;
   flex-direction: column;
   margin-right: 5%;
+}
+
+.attributes-display-row {
+  border: 1px solid black;
+  height: 200px;
+}
+
+.attributes-display-list > ul {
+  text-align: center;
+}
+
+.attributes-display-list > ul > li {
+  text-align: left;
+}
+
+.boots-display-row {
+  border: 1px solid brown;
+  height: 200px;
+  list-style-type: none;
+}
+
+.boots-display-list {
+  list-style-type: none;
+}
+
+.weapons-display-row {
+  border: 1px solid blue;
+  height: 200px;
+}
+
+.weapons-display-list {
+  list-style-type: none;
 }
 
 .boots-elements {
@@ -127,7 +161,6 @@ ul {
   font-family: "EB Garamond", serif;
   font-weight: 500;
   font-size: 1.1em;
-  list-style-type: none;
 }
 
 li::marker {

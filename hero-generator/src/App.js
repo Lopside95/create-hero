@@ -30,7 +30,9 @@ function App() {
   // This useEffect keeps track of, and updates, calculated values as they change through user inputs.
   // These values depend on a variety of interactions between attributes, weapons and boots.
 
-  const [submitEffect, setSubmitEffect] = useState(false);
+  // Trying to declare submitEffect as a const varialble wasn't working
+
+  let [submitEffect, setSubmitEffect] = useState(false);
 
   useEffect(() => {
     calculateDamage();
@@ -227,21 +229,6 @@ function App() {
     </ul>
   ));
 
-  // Boots elements redone
-
-  // const bootsElements = boots.map((boot) => (
-  //   <ul className="boots-elements" key={boot.id}>
-  //     {boot.name === "Power Treads" ? (
-  //       <li>
-  //         {boot.moveSpeed}
-  //         {}
-  //       </li>
-  //     ) : (
-  //       ""
-  //     )}
-  //   </ul>
-  // ));
-
   // works the same way as bootElements
   const weaponsElements = weapons.map((weapon) => (
     <ul className="weapons-elements">
@@ -282,28 +269,11 @@ function App() {
     };
   };
 
-  // function WeaponsElements({ heroSelections().selectedWeapon }) {
-  //   return (
-  //     <ul>
-  //       <h4>{selectedWeapon.name}</h4>
-  //       <li>{selectedWeapon.damage}</li>
-  //     </ul>
-  //   );
-  // }
-
   // using this to select weapons elements to conditionally render
   // unable to refer to 'selectedWeapon' defining the weapon as seen below
   const weaponForDisplay = heroSelections().selectedWeapon;
   const bootsForDisplay = heroSelections().selectedBoots;
   const attributeForDisplay = heroSelections().selectedAttribute;
-
-  const treads = boots[1];
-  const phase = boots[2];
-  const tpBoots = boots[3];
-
-  const daedalus = weapons[1];
-  const aghs = weapons[2];
-  const butterfly = weapons[3];
 
   // This function handles form inputs. it destructures the variables from the event target
   // and saves the values in the [heroes] state
@@ -486,7 +456,6 @@ function App() {
 
     // This sets the team to keep any previous heroes saved in the state and adds the new submitted hero
     setTeams((prevTeams) => [...prevTeams, updatedHero]);
-
     setSubmitEffect(true);
     // This sets the form input back to default after submission
     setHeroes({
@@ -502,8 +471,6 @@ function App() {
       chosenBoots: "None",
       chosenWeapon: "None",
     });
-    alert("Submitted");
-    setSubmitEffect(false);
   }
 
   const teamMembers = teams.map((team) => (
@@ -526,8 +493,6 @@ function App() {
       }
     };
 
-    // This returns the input name(s), attributes, items and calculations and
-    // and saves them within the [teams] state
     return (
       <div className="submitted-hero">
         <h3>
@@ -556,8 +521,9 @@ function App() {
     );
   }
 
-  // Was using these to individually render elements on the condition that they were selected
-  // found a better way
+  window.addEventListener("click", function () {
+    submitEffect === true && setSubmitEffect(false);
+  });
 
   return (
     <div className="random-hero">
@@ -576,25 +542,7 @@ function App() {
               team.
             </p>
           </Col>
-          {/* <Col className="attr-info">
-            <h4 className="attr-info-heading">Attributes</h4>
-            <p className="attr-info-text">
-              There are 3 different attributes to choose from, each with their
-              own bonuses. <span className="strength-word"> Strength</span>{" "}
-              increases your hero’s maximum health,
-              <span style={{ color: "#33b107", fontWeight: "600" }}>
-                {" "}
-                Agility{" "}
-              </span>{" "}
-              increases your hero’s attack speed and
-              <span className="intelligence-word"> Intelligence</span> increases
-              your hero’s maximum mana pool.
-              <br />
-              Each attribute point increases its corresponding bonus by 1. For
-              example, 1 strength point increases health by 1. Similarly, each
-              point of a hero’s attribute increases their damage by 1.
-            </p>
-          </Col> */}
+
           <label htmlFor="build-hero" className="form-header">
             <h5>Choose a name</h5>
           </label>
@@ -647,7 +595,7 @@ function App() {
 
               <br />
               <br />
-              <Row>
+              <Row className="boots-menu">
                 <Col>
                   <h5>Boots</h5>
                   {/* This maps the available boot options and allows for selection */}
@@ -693,6 +641,14 @@ function App() {
             </form>
           </Col>
           <Col className="displays">
+            <Row className="submit-effect">
+              {submitEffect === true && (
+                <div>
+                  <h1 className="submitted-text">HERO SAVED</h1>
+                </div>
+              )}
+            </Row>
+
             <Row className="attributes-display-row">
               {heroes.chosenAttribute !== "None" ? (
                 <div className="attributes-display-list">
@@ -726,7 +682,6 @@ function App() {
                 "Select an attribute"
               )}
             </Row>
-
             {/* Using 'bootsForDisplay' because trying to select using
             'heroes.chosenBoots.attackSpeed etc wasn't working */}
             <Row className="boots-display-row">
@@ -772,7 +727,10 @@ function App() {
           {/* Live preview renders the selected items and calculated values before submit */}
           {/* I've put the preview in the middle- vertically- of the page so that
           the preview is visible{" "} */}
+
           <Col className="live-preview">
+            <Row></Row>
+
             <Row>
               <InputsPreview />
               <CalculationsPreview />

@@ -39,8 +39,10 @@ p {
 }
 
 .main {
-  border: 1px solid red;
+  /* background: linear-gradient(to right, rgb(208, 205, 205), rgb(78, 76, 76)); */
+  /* border: 1px solid red; */
   /* background: rgb(53, 53, 53); */
+  background: rgb(213, 213, 213);
 }
 
 .intro-header {
@@ -58,10 +60,12 @@ p {
 }
 .agility-word {
   color: #33b107;
+  font-size: large;
   font-weight: 600;
 }
 .intelligence-word {
   color: #0831c2;
+  font-size: large;
   font-weight: 600;
 }
 
@@ -93,46 +97,87 @@ p {
   flex-direction: column;
 }
 
-/* beginning of displays maps */
+.submit-effect {
+  height: 80px;
+  text-align: center;
+}
+
+/* beginning of displays */
 
 .displays {
   display: flex;
   flex-direction: column;
   margin-right: 5%;
+  /* justify-content: space-evenly; */
 }
 
 .attributes-display-row {
   border: 1px solid black;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  background: white;
+
   height: 200px;
+  margin-bottom: 10px;
+  /* text-align: left; */
 }
 
-.attributes-display-list > ul {
-  text-align: center;
+.attr-list-div {
+  text-align: left;
+  padding-left: none;
 }
 
-.attributes-display-list > ul > li {
+.attributes-display-list {
+  list-style-type: none;
   text-align: left;
 }
 
 .boots-display-row {
-  border: 1px solid brown;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.2);
+  background: white;
+
   height: 200px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.boots-display-list > li {
   list-style-type: none;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.boots-display-list {
-  list-style-type: none;
+.boots-display-list > h5 {
+  text-align: center;
+  padding-bottom: 5px;
 }
 
 .weapons-display-row {
-  border: 1px solid blue;
   height: 200px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgb(0, 0, 0);
+  box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.2);
+  background: white;
 }
 
-.weapons-display-list {
+.weapons-display-list > h5 {
+  text-align: center;
+  padding-bottom: 5px;
+}
+
+.weapons-display-list > li {
   list-style-type: none;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
+.select-text {
+  text-align: center;
+  align-self: center;
+}
+
+/* NOT IN USE */
 .boots-elements {
   /* border: 1px solid red; */
   height: 1fr;
@@ -149,6 +194,7 @@ p {
   box-shadow: 0 0 2px 0.5px rgb(0, 0, 0);
 }
 
+/* no longer in use  */
 .weapons-elements {
   border: 1px solid red;
   height: 1fr;
@@ -225,9 +271,4 @@ li::marker {
   justify-content: flex-start;
   /* margin-left: 5%; */
   /* margin-right: 5%; */
-}
-
-.submit-effect {
-  height: 80px;
-  text-align: center;
 }

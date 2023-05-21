@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import { nanoid } from "nanoid";
+import { useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -21,9 +22,9 @@ function App() {
     attackSpeed: 10,
     damage: 10,
     moveSpeed: 30,
-    chosenAttribute: "None",
-    chosenBoots: "None",
-    chosenWeapon: "None",
+    chosenAttribute: "No Attribute",
+    chosenBoots: "No Boots",
+    chosenWeapon: "No Weapon",
     chosenBonus: "",
   });
 
@@ -49,7 +50,7 @@ function App() {
   const [boots, setBoots] = useState([
     {
       id: "none",
-      name: "None",
+      name: "No Boots",
       moveSpeed: 0,
       attackSpeed: 0,
       damage: 0,
@@ -91,7 +92,7 @@ function App() {
   const [attributes, setAttributes] = useState([
     {
       id: "none",
-      name: "None",
+      name: "No Attribute",
       effect: "none",
       amount: 0,
     },
@@ -120,7 +121,7 @@ function App() {
   const [weapons, setWeapons] = useState([
     {
       id: "none",
-      name: "None",
+      name: "No Weapon",
       damage: 0,
       damageType: "",
       attackSpeed: 0,
@@ -207,6 +208,9 @@ function App() {
     color: attrChangeColor(),
     // border: `1px solid ${attrChangeColor()}`,
   };
+
+  // bootsElements and weaponsElements are no longer in use
+  // and have been replaced by code under the 'display' col
 
   // this element maps over the information in boots state to render the different options
   // added ternaries to avoid unused/blank bullet points
@@ -467,11 +471,14 @@ function App() {
       attackSpeed: 10,
       damage: 10,
       moveSpeed: 30,
-      chosenAttribute: "None",
-      chosenBoots: "None",
-      chosenWeapon: "None",
+      chosenAttribute: "No Attribute",
+      chosenBoots: "No Boots",
+      chosenWeapon: "No Weapon",
     });
   }
+
+  // let targetTopPosition = teamMembers.getReboundingClientReact().top;
+  // const targetElement = targetElementRef.current;
 
   const teamMembers = teams.map((team) => (
     <SubmittedHero team={team} key={team.id} />
@@ -643,18 +650,16 @@ function App() {
           <Col className="displays">
             <Row className="submit-effect">
               {submitEffect === true && (
-                <div>
-                  <h1 className="submitted-text">HERO SAVED</h1>
-                </div>
+                <h1 className="submitted-text">HERO SAVED</h1>
               )}
             </Row>
 
             <Row className="attributes-display-row">
-              {heroes.chosenAttribute !== "None" ? (
-                <div className="attributes-display-list">
+              {heroes.chosenAttribute !== "No Attribute" ? (
+                <div className="attr-list-div">
                   {heroes.chosenAttribute === "Strength" && (
-                    <ul>
-                      <span className="strength-word">Strength</span>
+                    <ul className="attributes-display-list">
+                      <h5 className="strength-word">Strength</h5>
                       <li>
                         Each point of strength increases your hero’s maximum
                         health by 1.
@@ -666,26 +671,40 @@ function App() {
                     </ul>
                   )}
                   {heroes.chosenAttribute === "Agility" && (
-                    <p>
-                      <span className="agility-word">Agility </span>
-                      increases your hero’s attack speed
-                    </p>
+                    <ul className="attributes-display-list">
+                      <h5 className="agility-word">Agility</h5>
+                      <li>
+                        Each point of agility increases your hero’s maximum
+                        attack speed by 1.
+                      </li>
+                      <li>
+                        Each attribute point also increases your hero’s damage
+                        by 1.
+                      </li>
+                    </ul>
                   )}
                   {heroes.chosenAttribute === "Intelligence" && (
-                    <p>
-                      <span className="intelligence-word"> Intelligence</span>{" "}
-                      increases your hero’s maximum mana pool.
-                    </p>
+                    <ul className="attributes-display-list">
+                      <h5 className="intelligence-word">Intelligence</h5>
+                      <li>
+                        Each point of intelligence increases your hero’s maximum
+                        mana pool by 1.
+                      </li>
+                      <li>
+                        Each attribute point also increases your hero’s damage
+                        by 1.
+                      </li>
+                    </ul>
                   )}
                 </div>
               ) : (
-                "Select an attribute"
+                <h3 className="select-text attribute">Select Attribute</h3>
               )}
             </Row>
             {/* Using 'bootsForDisplay' because trying to select using
             'heroes.chosenBoots.attackSpeed etc wasn't working */}
             <Row className="boots-display-row">
-              {heroes.chosenBoots !== "None" ? (
+              {heroes.chosenBoots !== "No Boots" ? (
                 <ul className="boots-display-list">
                   <h5>{bootsForDisplay.name}</h5>
                   <li>Move Speed: {bootsForDisplay.moveSpeed}</li>
@@ -696,31 +715,31 @@ function App() {
                     <li>Damage: {bootsForDisplay.damage}</li>
                   )}
                   {bootsForDisplay.name === "Power Treads" ? (
-                    <li>+ {bootsForDisplay.bonus} attribute points</li>
+                    <li>Bonus: + {bootsForDisplay.bonus} attribute points</li>
                   ) : (
-                    <li>{bootsForDisplay.bonus}</li>
+                    <li>Bonus: {bootsForDisplay.bonus}</li>
                   )}
                 </ul>
               ) : (
-                "Select boots"
+                <h3 className="select-text boots">Select Boots</h3>
               )}
             </Row>
             <Row className="weapons-display-row">
-              {heroes.chosenWeapon !== "None" ? (
+              {heroes.chosenWeapon !== "No Weapon" ? (
                 <ul className="weapons-display-list">
                   <h5>{weaponForDisplay.name}</h5>
                   <li>Damage: {weaponForDisplay.damage}</li>
-                  <li>{weaponForDisplay.damageType}</li>
+                  <li>Damage Type: {weaponForDisplay.damageType}</li>
                   {weaponForDisplay.attackSpeed > 0 && (
                     <li>Attack Speed: {weaponForDisplay.attackSpeed}</li>
                   )}
                   {weaponForDisplay.mana > 0 && (
                     <li>Mana: {weaponForDisplay.mana}</li>
                   )}
-                  <li>{weaponForDisplay.bonus}</li>
+                  <li>Bonus: {weaponForDisplay.bonus}</li>
                 </ul>
               ) : (
-                "select a weapon"
+                <h3 className="select-text weapon">Select Weapon</h3>
               )}
             </Row>
           </Col>
@@ -729,8 +748,6 @@ function App() {
           the preview is visible{" "} */}
 
           <Col className="live-preview">
-            <Row></Row>
-
             <Row>
               <InputsPreview />
               <CalculationsPreview />

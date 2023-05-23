@@ -4,15 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import { nanoid } from "nanoid";
-import { useRef } from "react";
-// import styled from "styled-components";
 import "./App.css";
 
 function App() {
   const [teams, setTeams] = useState([]);
 
   // This state stores information based on user selections.
-  // heroes are then submitted and saved within the team state
+  // heroes are then submitted and saved in the [team] state
   // inputs/future inputs are prefixed with 'chosen' within the heroes state
   const [heroes, setHeroes] = useState({
     id: nanoid(),
@@ -29,12 +27,10 @@ function App() {
     chosenBonus: "",
   });
 
+  let [submitEffect, setSubmitEffect] = useState(false);
+
   // This useEffect keeps track of, and updates, calculated values as they change through user inputs.
   // These values depend on a variety of interactions between attributes, weapons and boots.
-
-  // Trying to declare submitEffect as a const varialble wasn't working
-
-  let [submitEffect, setSubmitEffect] = useState(false);
 
   useEffect(() => {
     calculateDamage();
@@ -158,14 +154,6 @@ function App() {
     },
   ]);
 
-  const bootsIcon = (
-    <img className="boots icon" src="./boot-outline.png" alt="" />
-  );
-
-  const weaponIcon = (
-    <img className="weapon icon" src="./weapon-icon.png" alt="" />
-  );
-
   // Which attribute icon to be displayed is conditional and this function returns the appropriate src
   const attrIcon = () => {
     if (heroes.chosenAttribute === "Strength") {
@@ -177,78 +165,25 @@ function App() {
     } else {
     }
   };
+  const bootsIcon = (
+    <img className="boots icon" src="./boot-outline.png" alt="" />
+  );
+
+  const weaponIcon = (
+    <img className="weapon icon" src="./weapon-icon.png" alt="" />
+  );
 
   // These states hold the calculated values of totalHealth etc.
   // based on the user/form selections
   const [totalHealth, setTotalHealth] = useState(0);
 
-  const [totalDamage, setTotalDamage] = useState(0);
-
   const [totalMana, setTotalMana] = useState(0);
+
+  const [totalDamage, setTotalDamage] = useState(0);
 
   const [totalAttackSpeed, setTotalAttackSpeed] = useState(0);
 
   const [totalMoveSpeed, setTotalMoveSpeed] = useState(0);
-
-  // This changes the colour of e.g. a border / text or some other kind of
-  // visual effect based on which attribute is selected
-  // Not currently in use*
-  const attrChangeColor = () => {
-    if (heroes.chosenAttribute === "Strength") {
-      return "#c30000";
-    } else if (heroes.chosenAttribute === "Agility") {
-      return "#33b107";
-    } else if (heroes.chosenAttribute === "Intelligence") {
-      return "#0831c2";
-    } else {
-    }
-  };
-
-  // also not in use*
-  const attrTextColors = {
-    color: attrChangeColor(),
-    // border: `1px solid ${attrChangeColor()}`,
-  };
-
-  // bootsElements and weaponsElements are no longer in use
-  // and have been replaced by code under the 'display' col
-
-  // this element maps over the information in boots state to render the different options
-  // added ternaries to avoid unused/blank bullet points
-  const bootsElements = boots.map((boot) => (
-    <ul className="boots-elements" key={boot.id}>
-      <h4>{boot.name}</h4>
-      <li>Move speed: {boot.moveSpeed}</li>
-      {boot.damage && boot.damage > 0 ? <li>Damage: {boot.damage}</li> : ""}
-      {boot.attackSpeed && boot.attackSpeed > 0 ? (
-        <li>Attack Speed: {boot.attackSpeed}</li>
-      ) : (
-        ""
-      )}
-
-      {boot.name === "Power Treads" ? (
-        <li>+ {boot.bonus} Attribute = +10 attribute bonus and +10 damage</li>
-      ) : (
-        <li>{boot.bonus}</li>
-      )}
-    </ul>
-  ));
-
-  // works the same way as bootElements
-  const weaponsElements = weapons.map((weapon) => (
-    <ul className="weapons-elements">
-      <h4>{weapon.name}</h4>
-      <li>Damage: {weapon.damage}</li>
-      <li>Type: {weapon.damageType}</li>
-      {weapon.attackSpeed && weapon.attackSpeed > 0 ? (
-        <li>Attack Speed: {weapon.attackSpeed}</li>
-      ) : (
-        ""
-      )}
-      {weapon.mana && weapon.mana > 0 ? <li>Mana: {weapon.mana}</li> : ""}
-      <li>{weapon.bonus}</li>
-    </ul>
-  ));
 
   //when being defined with the purpose of calculation, inputs are prefixed with 'selected'
 
@@ -276,9 +211,9 @@ function App() {
 
   // using this to select weapons elements to conditionally render
   // unable to refer to 'selectedWeapon' defining the weapon as seen below
-  const weaponForDisplay = heroSelections().selectedWeapon;
-  const bootsForDisplay = heroSelections().selectedBoots;
   const attributeForDisplay = heroSelections().selectedAttribute;
+  const bootsForDisplay = heroSelections().selectedBoots;
+  const weaponForDisplay = heroSelections().selectedWeapon;
 
   // This function handles form inputs. it destructures the variables from the event target
   // and saves the values in the [heroes] state
@@ -462,6 +397,7 @@ function App() {
     // This sets the team to keep any previous heroes saved in the state and adds the new submitted hero
     setTeams((prevTeams) => [...prevTeams, updatedHero]);
     setSubmitEffect(true);
+
     // This sets the form input back to default after submission
     setHeroes({
       id: nanoid(),
@@ -477,9 +413,6 @@ function App() {
       chosenWeapon: "No Weapon",
     });
   }
-
-  // let targetTopPosition = teamMembers.getReboundingClientReact().top;
-  // const targetElement = targetElementRef.current;
 
   const teamMembers = teams.map((team) => (
     <SubmittedHero team={team} key={team.id} />
@@ -501,17 +434,8 @@ function App() {
       }
     };
 
-    // function teamBoxStyle () {
-    //   if (team.chosenAttribute === "Strength") {
-    //     return 'boxShadow: "0px 0px 2px 0.5px #c30000"';
-    //   } else if (team.chosenAttribute === "Agility") {
-    //     return "#33b107";
-    //   } else if (team.chosenAttribute === "Intelligence") {
-    //     return "#0831c2";
-    //   } else {
-    //   }
-    // };
-    // }
+    // the lastName option/input was removed but the || logic remains in place
+    // for potential future use
 
     return (
       <div className="submitted-hero">
@@ -532,17 +456,11 @@ function App() {
           <h4>{team.chosenWeapon}</h4>
           <img className="subbed-weapon icon" src="./weapon-icon.png" alt="" />
         </div>
-
         <h5>{`${team.totalHealth} Health`}</h5>
         <h5>{`${team.totalMana} Mana`}</h5>
         <h5>{`${team.totalDamage} Damage`}</h5>
         <h5>{`${team.totalAttackSpeed} Attack Speed`}</h5>
         <h5>{`${team.totalMoveSpeed} Move Speed`}</h5>
-        {/* <h5>{`Health = ${team.totalHealth}`}</h5>
-        <h5>{`Mana = ${team.totalMana}`}</h5>
-        <h5>{`Damage = ${team.totalDamage}`}</h5>
-        <h5>{`Attack Speed = ${team.totalAttackSpeed}`}</h5>
-        <h5>{`Move Speed = ${team.totalMoveSpeed}`}</h5> */}
       </div>
     );
   }
@@ -555,8 +473,6 @@ function App() {
     <div className="app-body">
       <Container>
         <Row className="header">
-          {/* I think maybe I've made too many/unnecessary classes?
-          and also they need to be standardised more */}
           <Col className="intro">
             <h2 className="intro-header">How To Play</h2>
             <p className="intro-text">
@@ -567,16 +483,12 @@ function App() {
               grant various bonuses. Keep these in mind when assembling your
               team.
             </p>
-            <p>Saved heroes appear at the bottom of the screen</p>
+            <p>Saved heroes appear at the bottom of the screen.</p>
           </Col>
 
-          <label htmlFor="build-hero" className="form-header">
-            {/* <h5>Choose a name</h5> */}
-          </label>
+          <label htmlFor="build-hero" className="form-header"></label>
         </Row>
         <Row className="main">
-          {/* Can't figure out how to get the radion buttons to line up with the
-            text */}
           <Col className="all-menus">
             {/* The form consists of text and radio inputs 
             These text inputs  allow users to give their hero a name*/}
@@ -589,16 +501,7 @@ function App() {
                 value={heroes.firstName}
                 onChange={handleChange}
               />
-              {/* <input
-                className="last-name"
-                type="text"
-                placeholder="Last name . . ."
-                name="lastName"
-                value={heroes.lastName}
-                onChange={handleChange}
-              /> */}
-              {/* Save button placed at top of form, next to name, because names had not been a priority
-              and it reminds users to choose a name before they save their hero */}
+
               <button className="save-button" type="submit" value="Submit">
                 Save
               </button>
@@ -619,8 +522,6 @@ function App() {
                         onChange={handleChange}
                       />
                       {attribute.name}
-                      {/* <h5>{attribute.name}</h5> */}
-                      {/* <p>{attribute.effect}</p> */}
                     </label>
                   ))}
                 </Col>
@@ -665,18 +566,27 @@ function App() {
                 </Col>
               </Row>
               <br />
-              {/* <button className="save-button" type="submit" value="Submit">
-                Save
-              </button> */}
             </form>
           </Col>
           <Col className="displays">
             <Row className="submit-effect">
               {submitEffect === true && (
-                <h1 className="hero-saved">HERO SAVED</h1>
+                <h1
+                  className="hero-saved"
+                  onClick={() => {
+                    window.scrollTo({
+                      top: document.documentElement.scrollHeight,
+                      behavior: "smooth",
+                    });
+                  }}
+                >
+                  HERO SAVED
+                </h1>
               )}
             </Row>
 
+            {/* This Row conditionally renders the attribute information
+          based on the current selection */}
             <Row className="attributes-display-row">
               {heroes.chosenAttribute !== "No Attribute" ? (
                 <div className="attr-list-div">
@@ -724,8 +634,8 @@ function App() {
                 <h3 className="select-text attribute">Select Attribute</h3>
               )}
             </Row>
-            {/* Using 'bootsForDisplay' because trying to select using
-            'heroes.chosenBoots.attackSpeed etc wasn't working */}
+
+            {/* This conditionally renders the boots information */}
             <Row className="boots-display-row">
               {heroes.chosenBoots !== "No Boots" ? (
                 <ul className="boots-display-list">
@@ -747,6 +657,7 @@ function App() {
                 <h3 className="select-text boots">Select Boots</h3>
               )}
             </Row>
+            {/* This conditionally renders the weapons information */}
             <Row className="weapons-display-row">
               {heroes.chosenWeapon !== "No Weapon" ? (
                 <ul className="weapons-display-list">
@@ -767,8 +678,6 @@ function App() {
             </Row>
           </Col>
           {/* Live preview renders the selected items and calculated values before submit */}
-          {/* I've put the preview in the middle- vertically- of the page so that
-          the preview is visible{" "} */}
 
           <Col className="live-preview">
             <Row>

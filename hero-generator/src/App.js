@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { nanoid } from "nanoid";
 import { useRef } from "react";
+// import styled from "styled-components";
 import "./App.css";
 
 function App() {
@@ -500,6 +501,18 @@ function App() {
       }
     };
 
+    // function teamBoxStyle () {
+    //   if (team.chosenAttribute === "Strength") {
+    //     return 'boxShadow: "0px 0px 2px 0.5px #c30000"';
+    //   } else if (team.chosenAttribute === "Agility") {
+    //     return "#33b107";
+    //   } else if (team.chosenAttribute === "Intelligence") {
+    //     return "#0831c2";
+    //   } else {
+    //   }
+    // };
+    // }
+
     return (
       <div className="submitted-hero">
         <h3>
@@ -519,11 +532,17 @@ function App() {
           <h4>{team.chosenWeapon}</h4>
           <img className="subbed-weapon icon" src="./weapon-icon.png" alt="" />
         </div>
-        <h5>{`Health = ${team.totalHealth}`}</h5>
+
+        <h5>{`${team.totalHealth} Health`}</h5>
+        <h5>{`${team.totalMana} Mana`}</h5>
+        <h5>{`${team.totalDamage} Damage`}</h5>
+        <h5>{`${team.totalAttackSpeed} Attack Speed`}</h5>
+        <h5>{`${team.totalMoveSpeed} Move Speed`}</h5>
+        {/* <h5>{`Health = ${team.totalHealth}`}</h5>
         <h5>{`Mana = ${team.totalMana}`}</h5>
         <h5>{`Damage = ${team.totalDamage}`}</h5>
         <h5>{`Attack Speed = ${team.totalAttackSpeed}`}</h5>
-        <h5>{`Move Speed = ${team.totalMoveSpeed}`}</h5>
+        <h5>{`Move Speed = ${team.totalMoveSpeed}`}</h5> */}
       </div>
     );
   }
@@ -533,25 +552,26 @@ function App() {
   });
 
   return (
-    <div className="random-hero">
+    <div className="app-body">
       <Container>
         <Row className="header">
           {/* I think maybe I've made too many/unnecessary classes?
           and also they need to be standardised more */}
           <Col className="intro">
-            <h4 className="intro-header">How To Play</h4>
+            <h2 className="intro-header">How To Play</h2>
             <p className="intro-text">
               Select attributes and items from the menu to create a hero. Submit
-              them and save them to your team, which will consist of 3 heroes.
+              them and save them to your team.
               <br />
               Items and attributes interact with each other differently and
               grant various bonuses. Keep these in mind when assembling your
               team.
             </p>
+            <p>Saved heroes appear at the bottom of the screen</p>
           </Col>
 
           <label htmlFor="build-hero" className="form-header">
-            <h5>Choose a name</h5>
+            {/* <h5>Choose a name</h5> */}
           </label>
         </Row>
         <Row className="main">
@@ -562,21 +582,27 @@ function App() {
             These text inputs  allow users to give their hero a name*/}
             <form className="form" onSubmit={submitHero}>
               <input
-                className="first name"
+                className="name"
                 type="text"
-                placeholder="First name . . ."
+                placeholder="Name . . ."
                 name="firstName"
                 value={heroes.firstName}
                 onChange={handleChange}
               />
-              <input
-                className="last name"
+              {/* <input
+                className="last-name"
                 type="text"
                 placeholder="Last name . . ."
                 name="lastName"
                 value={heroes.lastName}
                 onChange={handleChange}
-              />
+              /> */}
+              {/* Save button placed at top of form, next to name, because names had not been a priority
+              and it reminds users to choose a name before they save their hero */}
+              <button className="save-button" type="submit" value="Submit">
+                Save
+              </button>
+
               <br />
               <br />
               <Row className="attributes-menu">
@@ -601,7 +627,6 @@ function App() {
               </Row>
 
               <br />
-              <br />
               <Row className="boots-menu">
                 <Col>
                   <h5>Boots</h5>
@@ -620,7 +645,6 @@ function App() {
                   ))}
                 </Col>
               </Row>
-              <br />
               <br />
               <Row className="weapons-menu">
                 <Col>
@@ -641,16 +665,15 @@ function App() {
                 </Col>
               </Row>
               <br />
-              <br />
-              <button className="submit-button" type="submit" value="Submit">
-                Submit
-              </button>
+              {/* <button className="save-button" type="submit" value="Submit">
+                Save
+              </button> */}
             </form>
           </Col>
           <Col className="displays">
             <Row className="submit-effect">
               {submitEffect === true && (
-                <h1 className="submitted-text">HERO SAVED</h1>
+                <h1 className="hero-saved">HERO SAVED</h1>
               )}
             </Row>
 
@@ -754,7 +777,8 @@ function App() {
             </Row>
           </Col>
         </Row>
-        <Row>
+        <Row className="team-row">
+          <h3 className="team-heading">Your Team</h3>
           <Col className="team-heroes">{teamMembers}</Col>
         </Row>
         <br />

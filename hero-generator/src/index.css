@@ -18,6 +18,10 @@ code {
     monospace;
 }
 
+.app-body {
+  /* background-color: rgb(43, 43, 43); */
+}
+
 .h1,
 h2,
 h3,
@@ -31,26 +35,6 @@ p {
   font-family: "EB Garamond", serif;
   font-weight: 500;
   font-size: 1.1rem;
-}
-
-.form-header {
-  font-family: "Inter", serif;
-  font-size: large;
-}
-
-.main {
-  /* background: linear-gradient(to right, rgb(208, 205, 205), rgb(78, 76, 76)); */
-  /* border: 1px solid red; */
-  /* background: rgb(53, 53, 53); */
-  background: rgb(213, 213, 213);
-}
-
-.intro-header {
-  text-align: center;
-}
-
-.attr-info-heading {
-  text-align: center;
 }
 
 .strength-word {
@@ -69,17 +53,61 @@ p {
   font-weight: 600;
 }
 
+.header {
+  font-family: "Inter", sans-serif;
+  font-size: large;
+  text-align: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+.intro-header {
+  text-align: center;
+  font-family: "Inter", serif;
+  /* font-size: large; */
+}
+
+.main {
+  /* background: linear-gradient(to right, rgb(208, 205, 205), rgb(78, 76, 76)); */
+  /* border: 1px solid red; */
+  /* background: rgb(53, 53, 53); */
+  /* background: rgb(213, 213, 213); */
+  padding: 5px;
+  /* box-shadow: 0px 0px 3px 2px rgb(0, 0, 0); */
+  /* border-left: 1px solid black; */
+  border-bottom: 1px solid black;
+}
+
+.form {
+  padding-bottom: 5px;
+}
+
 .all-menus {
   max-width: 450px;
   margin-right: 5%;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
+  box-shadow: 0px 0px 2px 3px rgb(255, 255, 255);
 }
 
 .name {
-  border-radius: 5%;
-  background-color: white;
-  /* border-color: lightgrey; */
-  /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); */
+  width: 150px;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-left: -13px;
+  border: 1px solid black;
+}
+
+/* .last-name {
+  width: 130px;
+  margin-bottom: -10px;
+} */
+
+.attributes-menu {
+  /* border: 1px solid rgb(204, 150, 150); */
+  /* border: 1px solid black; */
+  padding: 5px;
+  /* box-shadow: 0 0 2px 0.5px rgb(0, 0, 0, 0.3); */
+  box-shadow: 0px 0px 3px 0.5px black;
 }
 
 .attributes-input {
@@ -87,19 +115,52 @@ p {
   flex-direction: column;
 }
 
+.boots-menu {
+  /* border: 1px solid black; */
+  padding: 5px;
+  /* box-shadow: 0 0 2px 0.5px rgb(0, 0, 0, 0.3); */
+  box-shadow: 0px 0px 3px 0.5px black;
+}
+
 .boots-input {
   display: flex;
   flex-direction: column;
 }
 
+.weapons-menu {
+  /* border: 1px solid black; */
+  padding: 5px;
+  /* box-shadow: 0 0 2px 0.5px rgb(0, 0, 0, 0.3); */
+  box-shadow: 0px 0px 3px 0.5px black;
+
+  background: white;
+}
 .weapons-input {
   display: flex;
   flex-direction: column;
 }
 
+.save-button {
+  border: 0.5px solid black;
+  background: rgb(255, 255, 255);
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.save-btn-text {
+  /* color: white; */
+}
+
 .submit-effect {
   height: 80px;
   text-align: center;
+  /* border: 1px solid #0831c2; */
+}
+
+.hero-saved {
+  font-weight: 400;
+  text-decoration: underline;
+  text-decoration-color: #026809;
 }
 
 /* beginning of displays */
@@ -112,8 +173,9 @@ p {
 }
 
 .attributes-display-row {
-  border: 1px solid black;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  /* border: 1px solid black; */
+  /* box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0px 0px 3px 0.5px black;
   background: white;
 
   height: 200px;
@@ -132,10 +194,11 @@ p {
 }
 
 .boots-display-row {
-  border: 1px solid rgb(0, 0, 0);
-  box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.2);
-  background: white;
+  /* border: 1px solid rgb(0, 0, 0); */
+  /* box-shadow: 2px -2px 2px rgba(0, 0, 0, 0.2); */
+  box-shadow: 0px 0px 3px 0.5px black;
 
+  background: white;
   height: 200px;
   justify-content: center;
   align-items: center;
@@ -156,9 +219,10 @@ p {
   height: 200px;
   justify-content: center;
   align-items: center;
-  border: 1px solid rgb(0, 0, 0);
-  box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.2);
+  /* border: 1px solid rgb(0, 0, 0); */
+  /* box-shadow: -2px -2px 2px rgba(0, 0, 0, 0.2); */
   background: white;
+  box-shadow: 0px 0px 3px 0.5px black;
 }
 
 .weapons-display-list > h5 {
@@ -191,7 +255,8 @@ p {
 }
 
 .boot-elements-row {
-  box-shadow: 0 0 2px 0.5px rgb(0, 0, 0);
+  box-shadow: 0 0 2px 0.5px rgb(0, 0, 0, 0.3);
+  padding: 10px;
 }
 
 /* no longer in use  */
@@ -220,7 +285,11 @@ li::marker {
   justify-content: space-between;
   background: white;
   align-self: center;
-  border: 1px solid green;
+  box-shadow: 0px 0px 3px 0.5px black;
+
+  /* box-shadow: 0 0 2px 0.5px rgb(0, 0, 0, 0.3); */
+
+  /* border: 1px solid green; */
   /* 
   considered fixing position so that preview was always visible as users scrolled 
   position: fixed;
@@ -259,16 +328,36 @@ li::marker {
   justify-content: space-evenly;
   padding: 10px;
   box-shadow: 0 0 2px 0.5px rgb(0, 0, 0);
+  text-align: left;
 
   /* margin-left: 2%; */
   /* margin-right: 2%; */
 }
 
-/* This refers to all team members */
+.team-row {
+  display: flex;
+  text-align: center;
+  padding-top: 30px;
+}
+
+/* This refers to the team col */
 .team-heroes {
   display: flex;
   padding-top: 3%;
   justify-content: flex-start;
+  justify-content: space-evenly;
+
+  /* background-color: #c30000; */
   /* margin-left: 5%; */
   /* margin-right: 5%; */
 }
+
+/* .main-and-team {
+  background: linear-gradient(
+    to bottom,
+    rgb(255, 255, 255),
+    rgb(159, 159, 159),
+    rgb(120, 120, 120),
+    rgb(38, 38, 38)
+  );
+} */

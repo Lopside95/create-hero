@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/create-hero/static/css/main.068143a1.css",
+    "main.js": "/create-hero/static/js/main.bd50d054.js",
+    "static/js/787.592bb8d2.chunk.js": "/create-hero/static/js/787.592bb8d2.chunk.js",
+    "index.html": "/create-hero/index.html",
+    "main.068143a1.css.map": "/create-hero/static/css/main.068143a1.css.map",
+    "main.bd50d054.js.map": "/create-hero/static/js/main.bd50d054.js.map",
+    "787.592bb8d2.chunk.js.map": "/create-hero/static/js/787.592bb8d2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.068143a1.css",
+    "static/js/main.bd50d054.js"
+  ]
+}
